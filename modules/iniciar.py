@@ -36,14 +36,17 @@ def boas_vindas() -> None:
 def coletar_dados() -> None:
     # coleta idade
     limpar_tela()
-    console.print(Panel("[bold bright_green]  Digite sua idade:  [/bold bright_green]", border_style="bright_green", box=box.DOUBLE), justify="center")
+    console.print(Panel("[bold bright_green]  DIGITE SUA IDADE:  [/bold bright_green]", border_style="bright_green", box=box.DOUBLE), justify="center")
     while True:
         try:
             idade = int(console.input('>>> '))
+
+            if idade < 0 or idade > 125:
+                aviso('Idade inválida.')
+            else:
+                break
         except:
             erro('Digite apenas números.')
-        else:
-            break
 
     sleep(0.5)
 
@@ -58,7 +61,7 @@ def coletar_dados() -> None:
     
     # coleta o nome de usuário
     limpar_tela()
-    console.print(Panel("[bold bright_green]  Digite seu nome de usuário:  [/bold bright_green]", border_style="bright_green", box=box.DOUBLE), justify="center")
+    console.print(Panel("[bold bright_green]  DIGITE SEU NOME DE USUÁRIO:  [/bold bright_green]", border_style="bright_green", box=box.DOUBLE), justify="center")
     while True:
         nome = console.input('>>> ').strip()
 
@@ -71,8 +74,9 @@ def coletar_dados() -> None:
 
     # define a senha do usuário
     limpar_tela()
-    console.print(Panel("[bold bright_green]  Defina sua senha:  [/bold bright_green]", border_style="bright_green", box=box.DOUBLE), justify="center")
-    senha = pwinput('>>> ').strip()
+    console.print(Panel("[bold bright_green]  DEFINA SUA SENHA:  [/bold bright_green]", border_style="bright_green", box=box.DOUBLE), justify="center")
+    console.print('>>> ', end='')
+    senha = pwinput('').strip()
 
     dados = {"idade": idade, "nome": nome, "senha": senha}
     with open(caminho, "w", encoding="utf-8") as arquivo:
@@ -93,12 +97,13 @@ def checar_sehha() -> bool:
     
     for i in range(0, 3):
         limpar_tela()
-        console.print(Panel("[bold bright_green]  Digite sua senha:  [/bold bright_green]", border_style="bright_green", box=box.DOUBLE), justify="center")
+        console.print(Panel("[bold bright_green]  DIGITE SUA SENHA:  [/bold bright_green]", border_style="bright_green", box=box.DOUBLE), justify="center")
         
         if i > 0:
             console.print(Panel(Align.center(f'[red]Senha incorreta. {3 - i} tentaivas antes do desligamento forçado.[/red]'), border_style="red", box=box.DOUBLE))
         
-        senha = pwinput('>>> ')
+        console.print('>>> ', end='')
+        senha = pwinput('')
         
         if senha == dados['senha']:
             return True

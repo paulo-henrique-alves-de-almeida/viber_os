@@ -22,14 +22,14 @@ class GerenciadorPastas:
             Path(self.caminho_atual / nome_pasta).mkdir(parents=True)
             console.print(f'Diretório [bold]{nome_pasta}[/bold] criado com sucesso.\n')
         except FileExistsError:
-            erro('O diretório já existe.')
+            erro(f'O diretório [bold]{nome_pasta}[/bold] já existe.')
     
     def criar_arquivo(self, nome_arquivo: str) -> None:
         try:
             Path(self.caminho_atual / nome_arquivo).touch(exist_ok=False)
             console.print(f'Arquivo [bold]{nome_arquivo}[/bold] criado com sucesso.\n')
         except FileExistsError:
-            erro('O arquivo já existe.')
+            erro(f'O arquivo [bold]{nome_arquivo}[/bold] já existe.')
         except FileNotFoundError:
             erro('Pasta não encontrada.')
     
@@ -74,13 +74,13 @@ class GerenciadorPastas:
         if caminho.exists() and caminho.is_dir():
             try:
                 caminho.rmdir()
-                console.print(f'[bold]{nome_pasta}[/bold] deletado com sucesso.\n')
+                console.print(f'Diretório [bold]{nome_pasta}[/bold] deletado com sucesso.\n')
             except OSError:
                 erro('Só é possível deletar pastas vazias.')
             
             return
         
-        erro('Pasta não encontrada.')
+        erro(f'Pasta [bold]{nome_pasta}[/bold] não encontrada.')
     
     def deletar_arquivo(self, nome_arquivo: str) -> None:
         caminho = Path(self.caminho_atual / nome_arquivo)
@@ -96,10 +96,10 @@ class GerenciadorPastas:
             
             if certeza == 's':
                 caminho.unlink()
-                console.print(f'[bold]{nome_arquivo}[/bold] deletado com sucesso.\n')
+                console.print(f'Arquivo [bold]{nome_arquivo}[/bold] deletado com sucesso.\n')
                 return
         
-        erro(f'{nome_arquivo} não encontrado.')
+        erro(f'Arquivo {nome_arquivo} não encontrado.')
     
     def ler_arquivo(self, nome_arquivo: str) -> None:
         arquivo = Path(self.caminho_atual / nome_arquivo)
@@ -110,7 +110,7 @@ class GerenciadorPastas:
 
                 console.print(f'{texto}\n')
         else:
-            erro('Arquivo não encontrado.')
+            erro(f'Arquivo [bold]{nome_arquivo}[/bold] não encontrado.')
 
     
     def adicionar_arquivo(self, nome_arquivo: str, texto: str) -> None:
@@ -120,4 +120,4 @@ class GerenciadorPastas:
             with open (arquivo, 'a') as arq:
                 arq.write(texto)
         else:
-            erro('Arquivo não encontrado.')
+            erro(f'Arquivo [bold]{nome_arquivo}[/bold] não encontrado.')
