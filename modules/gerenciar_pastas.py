@@ -33,23 +33,33 @@ class GerenciadorPastas:
         except FileNotFoundError:
             erro('Pasta não encontrada.')
     
-    def listar_pasta(self):
+    def listar_pasta(self, nome_pasta: str ='') -> None:
         quantidade_pastas = 0
         quantidade_arquivos = 0
         tamanho_arquivos = 0
         tipo = ''
+        caminho = Path(self.caminho_atual / nome_pasta)
+
+        if nome_pasta:
+            if caminho.exists and caminho.is_dir():
+                console.print(f'\n[magenta][bold]Diretório:[/bold] {self.get_caminho_home(False)}/{nome_pasta}[/magenta]')
+            else:
+                erro('Caminho não encontrado.')
+                return
+
         console.print()
 
-        for item in self.caminho_atual.iterdir():
+        for item in caminho.iterdir():
             if item.is_dir():
                 quantidade_pastas += 1
                 tamanho_arquivos += item.stat().st_size
-                tipo = 'Diretório'
+                tipo = 'DIR'
             else:
                 quantidade_arquivos += 1
-                tipo = 'Arquivo'
+                tipo = 'ARQ'
 
-            console.print(f'<{tipo}> [magenta]{item.name}[/magenta]')
+            print(f'\033[32m<\033[35m{tipo}\033[32m>\033[m ', end='')
+            console.print(f'[magenta]{item.name}[/magenta]')
         console.print(f'\n    {quantidade_arquivos} {'Arquivo' if quantidade_arquivos <= 1 else 'Arquivos'}    |   {tamanho_arquivos} bytes')
         console.print(f'    {quantidade_pastas} {'Diretório' if quantidade_pastas <= 1 else 'Diretórios'}\n')
     

@@ -8,29 +8,29 @@ if str(pasta_modules) not in path:
 
 from modules.iniciar import boot, boas_vindas, menor_idade, checar_sehha, desligamento, coletar_dados
 from modules.menu import cabecalho, mostrar_aplicativos
-from modules.console import console, erro
+from modules.console import console, erro, aviso
 from modules.gerenciar_pastas import GerenciadorPastas
 
 # outras importações
 from time import sleep
 from json import load
+from simpleeval import SimpleEval, OperatorNotDefined, NumberTooHigh
 
 from rich.markdown import Markdown
 from rich.panel import Panel
+from rich.prompt import Prompt
 
-def menu(nome: str):
+def menu(nome_dados: str) -> None:
     aplicativo = True
 
     while True:
         try:
             if aplicativo:
-                cabecalho(nome)
+                cabecalho(nome_dados)
                 mostrar_aplicativos()
-                print()
+                console.print()
 
-            comando = console.input(f'[light_green]{nome.lower()}@vibe-os:[/light_green]{gerenciador_pastas.get_caminho_home()} > ').strip()
-
-            comando_separado = comando.split(' ')
+            comando = console.Prompt.ask(f'[light_green]{nome}@vibe-os:[/light_green]{gerenciador_pastas.get_caminho_home()} > ').strip()
 
             match comando:
                 case '':
@@ -43,6 +43,10 @@ def menu(nome: str):
 
                 case 'ls':
                     gerenciador_pastas.listar_pasta()
+                    aplicativo = False
+                
+                case 'cd..':
+                    gerenciador_pastas.trocar_pasta('..')
                     aplicativo = False
                 
                 case 'whoiam':
@@ -63,10 +67,6 @@ def menu(nome: str):
                     console.print('Vibelinux 1.0\n')
                     aplicativo = False
 
-                case '0' | 'calc':
-                    pass
-                    aplicativo = True
-                
                 case '1' | 'calendar':
                     pass
                     aplicativo = True
@@ -102,8 +102,37 @@ def menu(nome: str):
 
                 # "else"
                 case _:
+                    comando_separado = comando.split(' ')
                     aplicativo = False
                     match comando_separado[0]:
+                        case 'man':
+                            if len(comando_separado) != 2:
+                                erro('Comando não reconhecido.')
+                            else:
+                                comandos = {'clear': [1, 2], 'whoiam': [3, 4], 'pwd': [5, 6], 'hostname': [7, 8], 'uname': [9, 10], 'ls': [11, 14], 'man': [15, 18], 'cd': [19, 21], 'mkdir': [22, 25], 'touch': [26, 28], 'rm': [29, 31], 'rmdir': [32, 35], 'cat': [36, 38], 'echo': [39, 43], 'calendar': [44, 45], 'music': [46, 47], 'vibegotchi': [48, 49], 'gpt': [50, 51], 'help': [52, 53], 'shutdown': [54, 55]}
+                                
+                                if comando_separado[1] in comandos:
+                                    caminho = Path(__file__).parent / 'modules' / 'help.md'
+                                    nome_comando = comando_separado[1]
+
+                                    with open(caminho, 'r', encoding="utf-8") as helpmd:
+                                        linhas = helpmd.readlines()
+                                        linhas = linhas[comandos[nome_comando][0]:comandos[nome_comando][1]]
+                                        texto_parcial = ''.join(linhas)
+
+                                    markdown = Markdown(texto_parcial)
+                                    console.print()
+                                    console.print(Panel(markdown))
+                                    console.print()
+                                else:
+                                    erro('Comando não reconhecido.')
+                        
+                        case 'ls':
+                            if len(comando_separado) != 2:
+                                erro('Caminho não encontrado.')
+                            else:
+                                gerenciador_pastas.listar_pasta(comando_separado[1])
+
                         case 'cd':
                             if len(comando_separado) != 2:
                                 erro('Caminho não encontrado.')
@@ -161,12 +190,28 @@ def menu(nome: str):
                                 case _:
                                     erro('Comando inválido.')
                         
-                        case _: 
-                            erro(f'Comando [italic]{comando}[/italic] desconhecido.')
-                            aplicativo = False
+                        case _:
+                            calculadora = SimpleEval(functions={}, names={})
+                            calculadora.disallow_attributes = True
 
+                            try:
+                                resultado = calculadora.eval(comando)
+                                # inteiro, _, decimal = str(resultado).partition('.')
+                                # resultado = f"{int(inteiro):,}".replace(",", ".") + (f",{decimal}" if decimal else "")
+
+                                console.print(f'>>> {resultado}\n')
+                            except ZeroDivisionError:
+                                console.print('>>> Indefinido ou indeterminado. \n')
+                            except OperatorNotDefined:
+                                erro('Operador desconhecido')
+                            except NumberTooHigh:
+                                aviso('A expressão é grande demais.')
+                            except:
+                                erro(f'Comando [italic]{comando}[/italic] desconhecido.')
         except:
-            console.print('^C')
+        # except Exception as e:
+            # print()
+            console.print()
             aplicativo = False
 
 if __name__ == '__main__':
@@ -188,8 +233,13 @@ if __name__ == '__main__':
             boas_vindas()
 
             gerenciador_pastas = GerenciadorPastas()
-            gerenciador_pastas.criar_pasta(dados['nome'].lower())
-            gerenciador_pastas.trocar_pasta(dados['nome'].lower())
+
+            # cria o diretório home e user
+            nome = dados['nome'].lower().replace(' ', '-').replace('/', '-').replace('\\', '-').replace(':', '-').replace('*', '-').replace('?', '-').replace('"', '-').replace('<', '-').replace('>', '-').replace('|', '-')
+            if not Path(gerenciador_pastas.caminho_atual / nome).exists():
+                gerenciador_pastas.criar_pasta(nome)
+            gerenciador_pastas.trocar_pasta(nome)
+
             menu(dados['nome'])
     
     desligamento()

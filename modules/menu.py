@@ -15,9 +15,7 @@ def cabecalho(nome: str, titulo = 'Lista de Aplicativos'):
     console.print(Panel(f"[bold green]{titulo}[/bold green]", border_style="green", box=box.SIMPLE_HEAD, expand=False), justify="center")
 
 def mostrar_aplicativos():
-    console.print(Panel('''[0] Calculadora
-                                                
-[1] Calendário
+    console.print(Panel('''[1] Calendário
                         
 [2] Biblioteca de músicas
                         

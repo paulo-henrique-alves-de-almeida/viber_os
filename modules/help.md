@@ -10,6 +10,12 @@
 **uname:** Imprime o kernel do sistema e sua versão.
 
 **ls:** Lista os arquivos e diretórios do diretório de trabalho atual. Diz quantos diretórios e arquivos arquivos.
+- Opcionalmente, pode ser combinado (separado por espaço) com o nome de outro diretório ou caminho para mostrar seus diretórios e arquivos.
+- Seguindo a forma: `ls [nome_pasta ou caminho]`.
+
+**man [nome_comando]:** Mostra o manual de algum comando do sistema.
+- Obrigatório o nome de um, e somente um, comando.
+- Imprime parte do que é mostrado com o comando `help`.
 
 **cd [nome_pasta ou caminho]:** Troca o diretório atual de trabalho para o selecionado.
 - Obrigatório um nome de pasta ou caminho de pastas existente.
@@ -32,21 +38,32 @@
 - Obrigatório um, e apenas um, nome de arquivo existente, com a extensão.
 
 **echo:** Imprime um valor no terminal.
-- É possível redirecionar o valor para o arquivo, utilizando o comando: 
-echo [valor] > [nome_arquivo]
-- Argumentos devem ser separado por espaço
-- Obrigatório o nome de um, e apenas um, arquivo existente, com extensão.
+- É possível redirecionar o valor para um arquivo.
+- Seguindo a forma: `echo [valor] > [nome_arquivo]`.
+- Argumentos devem ser separado por espaço.
 
-**calc:** Abre o aplicativo Calculadora
+**calendar:** Abre o aplicativo Calendário.
 
-**calendar:** Abre o aplicativo Calendário
+**music:** Abre a Biblioteca de Música.
 
-**music:** Abre a Biblioteca de Música
+**vibegotchi:** Abre o aplicativo Vibegotchi.
 
-**vibegotchi:** Abre o aplicativo Vibegotchi
-
-**gpt:** Abre o prompt ChatGPT
+**gpt:** Abre o prompt ChatGPT.
 
 **help:** Imprime o manual de comandos do sistema.
 
 **shutdown:** Desliga o sistema.
+
+---
+
+São aceitas expressões matemáticas (desde que não muito grandes) e o terminal retorna o resultado.
+
+**Operadores aceitos:**
+- Adição: +
+- Subtração: -
+- Multiplicação: *
+- Divisão: /
+- Divisão inteira: //
+- Módulo: %
+- Potênciação: **
+- Parênteses: ()
