@@ -12,13 +12,13 @@ from modules.console import console, erro, aviso
 from modules.gerenciar_pastas import GerenciadorPastas
 
 # outras importações
+import os
 from time import sleep
 from json import load
 from simpleeval import SimpleEval, OperatorNotDefined, NumberTooHigh
 
 from rich.markdown import Markdown
 from rich.panel import Panel
-from rich.prompt import Prompt
 
 def menu(nome_dados: str) -> None:
     aplicativo = True
@@ -30,7 +30,7 @@ def menu(nome_dados: str) -> None:
                 mostrar_aplicativos()
                 console.print()
 
-            comando = console.Prompt.ask(f'[light_green]{nome}@vibe-os:[/light_green]{gerenciador_pastas.get_caminho_home()} > ').strip()
+            comando = console.input(f'[light_green]{nome}@vibe-os:[/light_green]{gerenciador_pastas.get_caminho_home()} > ').strip()
 
             match comando:
                 case '':
@@ -99,7 +99,12 @@ def menu(nome_dados: str) -> None:
                 case 'shrek':
                     pass
                     aplicativo = False
-
+                
+                case 'rick':
+                    aplicativo = True
+                    print('\033[32m')
+                    os.system('curl ascii.live/rick')
+                    
                 # "else"
                 case _:
                     comando_separado = comando.split(' ')
@@ -210,9 +215,8 @@ def menu(nome_dados: str) -> None:
                                 erro(f'Comando [italic]{comando}[/italic] desconhecido.')
         except:
         # except Exception as e:
-            # print()
+        # print(e)
             console.print()
-            aplicativo = False
 
 if __name__ == '__main__':
     boot()

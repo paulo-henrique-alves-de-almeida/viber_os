@@ -1,6 +1,6 @@
 from rich.console import Console
 
-console = Console(style='green on black')
+console = Console(style='green')
 
 def limpar_tela() -> None:
     console.clear()
