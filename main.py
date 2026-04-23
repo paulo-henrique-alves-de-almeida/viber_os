@@ -200,11 +200,11 @@ def menu(nome_dados: str) -> None:
                             calculadora.disallow_attributes = True
 
                             try:
-                                resultado = calculadora.eval(comando)
+                                resultado = calculadora.eval(comando.replace(',', '.'))
                                 # inteiro, _, decimal = str(resultado).partition('.')
-                                # resultado = f"{int(inteiro):,}".replace(",", ".") + (f",{decimal}" if decimal else "")
+                                # resultado = f"{int(inteiro):,}" + (f",{decimal}" if decimal else "")
 
-                                console.print(f'>>> {resultado}\n')
+                                console.print(f'>>> {resultado:g}\n')
                             except ZeroDivisionError:
                                 console.print('>>> Indefinido ou indeterminado. \n')
                             except OperatorNotDefined:
@@ -225,6 +225,9 @@ if __name__ == '__main__':
 
     if not arquivo_dados.exists():
         coletar_dados()
+        primeira_vez = True
+    else:
+        primeira_vez = False
 
     with open(arquivo_dados, 'r') as arquivo:
         dados = load(arquivo)
@@ -233,7 +236,7 @@ if __name__ == '__main__':
         menor_idade()
 
     else:
-        if checar_sehha():
+        if checar_sehha(primeira_vez):
             boas_vindas()
 
             gerenciador_pastas = GerenciadorPastas()

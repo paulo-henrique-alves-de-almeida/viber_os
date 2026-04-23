@@ -2,7 +2,6 @@ from console import console, limpar_tela
 
 from rich.align import Align
 from rich.panel import Panel
-from rich.columns import Columns
 from rich import box
 
 from art import text2art
@@ -21,7 +20,7 @@ def mostrar_aplicativos():
                         
 [3] Vibegotchi
                         
-[4] ChatGPT
+[4] Vibe Box
                         
 [5] Ajuda
                         

@@ -1,6 +1,8 @@
-# import Rich
+# importação de modules
 from console import console, limpar_tela, erro, aviso
+from caixa_som import CaixaSom
 
+# importação de Rich
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn
 from rich import box
@@ -17,13 +19,17 @@ from pwinput import pwinput
 def boot() -> None:
     limpar_tela()
     console.print("\n")
+
+    caixa_som = CaixaSom()
+    caixa_som.init()
+    caixa_som.tocar_musica('playstation-2-startup-intro-ps2.mp3', loop=0, fadeout=5000)
+    
     etapas = ['Iniciando aplicativos...', 'Entrando na vibe...', 'Codando...', 'Organizando pastas...', 'Deixando tudo pronto...']
-    with Progress(SpinnerColumn(style="green"), TextColumn("[green]{task.description}"), BarColumn(bar_width=40, style="green", complete_style="bright_green"), console=console, transient=True, ) as progress:
+    with Progress(SpinnerColumn('bouncingBar', style="green"), TextColumn("[green]{task.description}"), BarColumn(bar_width=40, style="green", complete_style="bright_green"), console=console, transient=True) as progress:
         tarefa = progress.add_task("Inicializando...", total=len(etapas))
         for etapa in etapas:
             progress.update(tarefa, description=etapa, advance=1)
-            Beep(900, 300)
-            sleep(0.3)
+            sleep(1)
 
     console.print(Panel("[bold bright_green]  VibeOS INICIALIZADO COM SUCESSO!  [/bold bright_green]", border_style="bright_green", box=box.DOUBLE), justify="center")
     sleep(1)
@@ -52,6 +58,7 @@ def coletar_dados() -> None:
 
     dados = {"idade": idade}
     caminho = Path(__file__).parent.parent / 'dados' / 'dados.json'
+    caminho.parent.mkdir(parents=True, exist_ok=True)
     
     with open(caminho, "w+") as arquivo:
         dump(dados, arquivo, indent=4, ensure_ascii=False)
@@ -90,25 +97,28 @@ def menor_idade() -> None:
     console.print(Panel("[bold bright_green]  Acesso bloqueado no Brasil devido à sua idade.  [/bold bright_green]", border_style="bright_green", box=box.DOUBLE), justify="center")
     console.input('>>> ')
 
-def checar_sehha() -> bool:
-    caminho = Path(__file__).parent.parent / 'dados' / 'dados.json'
-    with open(caminho, "r", encoding="utf-8") as arquivo:
-        dados = load(arquivo)
+def checar_sehha(primeira_vez: bool =False) -> bool:
+    if not primeira_vez:
+        caminho = Path(__file__).parent.parent / 'dados' / 'dados.json'
+        with open(caminho, "r", encoding="utf-8") as arquivo:
+            dados = load(arquivo)
+        
+        for i in range(0, 3):
+            limpar_tela()
+            console.print(Panel("[bold bright_green]  DIGITE SUA SENHA:  [/bold bright_green]", border_style="bright_green", box=box.DOUBLE), justify="center")
+            
+            if i > 0:
+                console.print(Panel(Align.center(f'[red]Senha incorreta. {3 - i} tentaivas antes do desligamento forçado.[/red]'), border_style="red", box=box.DOUBLE))
+            
+            console.print('>>> ', end='')
+            senha = pwinput('')
+            
+            if senha == dados['senha']:
+                return True
     
-    for i in range(0, 3):
-        limpar_tela()
-        console.print(Panel("[bold bright_green]  DIGITE SUA SENHA:  [/bold bright_green]", border_style="bright_green", box=box.DOUBLE), justify="center")
-        
-        if i > 0:
-            console.print(Panel(Align.center(f'[red]Senha incorreta. {3 - i} tentaivas antes do desligamento forçado.[/red]'), border_style="red", box=box.DOUBLE))
-        
-        console.print('>>> ', end='')
-        senha = pwinput('')
-        
-        if senha == dados['senha']:
-            return True
- 
-    return False
+        return False
+    
+    return True
 
 def desligamento() -> None:
     limpar_tela()
