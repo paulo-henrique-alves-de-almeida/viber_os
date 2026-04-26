@@ -1,14 +1,12 @@
 import time
 import msvcrt
-from rich.console import Console
 from rich.live import Live
 
+from modules.console import console
 from modules.space_invader.game import Game
 from modules.space_invader.menu_vibe_invader import draw_menu, draw_gameover, handle_menu_input
 from modules.space_invader.save import load_highscore, save_highscore
 from modules.space_invader import sound
-
-console = Console()
 
 
 def main():
@@ -66,6 +64,3 @@ def main():
 
             time.sleep(0.05)
 
-
-if __name__ == "__main__":
-    main()

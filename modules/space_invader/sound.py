@@ -6,7 +6,6 @@ caixa_som = CaixaSom(musicas=SOUNDS_DIR, efeitos=SOUNDS_DIR)
 caixa_som.init()
 
 def play_music():
-    "Toca a música de fundo em loop."
     caixa_som.tocar_musica('space_battle.wav')
     caixa_som.volume_musica(0.3)
 

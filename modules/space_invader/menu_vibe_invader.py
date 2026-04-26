@@ -7,7 +7,7 @@ from art import text2art
 def draw_menu():
     titulo = Text(text2art("VIBE  INVADERS"), style="bold green")
     
-    menu = Text("\n\n[A] Jogar\n\n[Q] Sair\n\n", style="bold green", justify='center')
+    menu = Text("\n\n[A] Jogar\n\n[Q] Sair\n\n\n", style="bold green", justify='center')
     
     controles = Align(Text("A: Esquerda  |  D: Direita  |  Backspace: Atirar", style="bold green"), vertical='bottom', align='center')
 
@@ -19,18 +19,20 @@ def draw_menu():
 
 
 def draw_gameover(wave, score, highscore):
-    text = Text(justify="center")
-    text.append("GAME OVER\n", style="bold red")
-    text.append("\n")
-    text.append(f"{'WAVE':<12}{wave}\n", style="bold green")
-    text.append(f"{'SCORE':<12}{score}\n", style="bold green")
-    text.append(f"{'HIGHSCORE':<12}{highscore}\n", style="bold green")
+    titulo = Text(text2art("GAME OVER"), style="bold red")
+    
+    dados = Text(justify="center")
+    dados.append("\n\n")
+    dados.append(f"{'WAVE':<12}{wave}\n\n", style="bold green")
+    dados.append(f"{'SCORE':<12}{score}\n\n", style="bold green")
+    dados.append(f"{'HIGHSCORE':<12}{highscore}\n", style="bold green")
+
+    conteudo = Group(titulo, dados)
 
     panel = Panel(
-        Align.center(text, vertical="middle"),
+        Align.center(conteudo, vertical="middle"),
         border_style="green",
-        width=40,
-        height=12,
+        height=20,
         expand=False
     )
 

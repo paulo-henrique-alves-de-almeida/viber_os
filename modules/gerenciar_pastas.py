@@ -4,7 +4,7 @@ from console import console, erro, aviso
 class GerenciadorPastas:
     def __init__(self):
         self.caminho_atual = Path(__file__).parent / 'home'
-    
+            
     def get_caminho_home(self, sumprimir_home: bool =True) -> str:
         caminho_home = f'/{str(self.caminho_atual.as_posix())[str(self.caminho_atual).find('home'):]}'
 
@@ -132,3 +132,5 @@ class GerenciadorPastas:
                 arq.write(texto)
         else:
             erro(f'Arquivo [bold]{nome_arquivo}[/bold] não encontrado.')
+
+gerenciador_pastas = GerenciadorPastas()
