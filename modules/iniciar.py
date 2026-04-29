@@ -37,7 +37,7 @@ def boas_vindas() -> None:
     limpar_tela()
 
     caixa_som.init()
-    caixa_som.tocar_musica('Sanctuary OS.mp3', volume=0.5)
+    caixa_som.tocar_musica('VibeOS.mp3', volume=0.5)
 
     console.print(Panel(Align.center(text2art('Bem vindo ao VibeOS!')), border_style="green", box=box.DOUBLE))
     sleep(1)

@@ -1,7 +1,7 @@
 from pathlib import Path
 from pygame import mixer
 
-musica_atual = None
+musica_atual = 'VibeOS.mp3'
 class CaixaSom:
     _instance = None
 
@@ -43,6 +43,16 @@ class CaixaSom:
     
     def get_busy_music(self) -> bool:
         return mixer.music.get_busy()
+    
+    def listar_musicas(self) -> list[Path]:
+        musicas_sistema = ['playstation-2-startup-intro-ps2.mp3']
+
+        musicas = [
+            m for m in self.musicas.glob('*.mp3')
+            if m.name not in musicas_sistema
+        ]
+
+        return musicas
 
 if __name__ == '__main__':
     caixa_som = CaixaSom()
