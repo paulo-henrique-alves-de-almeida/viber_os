@@ -126,11 +126,11 @@ class GerenciadorPastas:
     
     def adicionar_arquivo(self, nome_arquivo: str, texto: str) -> None:
         arquivo = Path(self.caminho_atual / nome_arquivo)
+        
+        if not (arquivo.exists() and arquivo.is_file()):
+            self.criar_arquivo(nome_arquivo)
 
-        if arquivo.exists() and arquivo.is_file():
-            with open(arquivo, 'a') as arq:
-                arq.write(texto)
-        else:
-            erro(f'Arquivo [bold]{nome_arquivo}[/bold] não encontrado.')
+        with open(arquivo, 'a') as arq:
+            arq.write(texto)
 
 gerenciador_pastas = GerenciadorPastas()

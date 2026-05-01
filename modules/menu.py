@@ -22,11 +22,13 @@ from simpleeval import SimpleEval, OperatorNotDefined, NumberTooHigh
 import google.generativeai as genai
 from google.api_core.exceptions import ResourceExhausted
 
-def cabecalho(nome: str, titulo = 'Lista de Aplicativos'):
+def cabecalho(nome: str):
     limpar_tela()
+
     console.print(Panel(Align.center(f'User: {nome}  |  Date: {date.today()}'), border_style="green", box=box.SIMPLE_HEAD, expand=False), justify="center")
+    
     console.print(Panel(Align.center(text2art('VibeOS')), border_style="green", box=box.DOUBLE))
-    console.print(Panel(f"[bold green]{titulo}[/bold green]", border_style="green", box=box.SIMPLE_HEAD, expand=False), justify="center")
+    console.print(Panel("[bold green]Lista de Aplicativos[/bold green]", border_style="green", box=box.SIMPLE_HEAD, expand=False), justify="center")
 
 def mostrar_aplicativos():
     console.print(Panel('''[1] Calendário
@@ -126,6 +128,7 @@ def menu(nome: str, nome_dados: str) -> None:
                 case 'rick':
                     aplicativo = True
                     video = VideoAscii('rickroll.mp4')
+                    caixa_som.tocar_musica('Rickroll.mp3', 0.8, False, 0)
                     video.play()
                     
                 # "else"

@@ -60,7 +60,7 @@ def coletar_dados() -> None:
     sleep(0.5)
 
     dados = {"idade": idade}
-    caminho = Path(__file__).parent.parent / 'dados' / 'dados.json'
+    caminho = Path(__file__).parent.parent / 'dados' / 'dados_usuario.json'
     caminho.parent.mkdir(parents=True, exist_ok=True)
     
     with open(caminho, "w+") as arquivo:
@@ -102,7 +102,7 @@ def menor_idade() -> None:
 
 def checar_sehha(primeira_vez: bool =False) -> bool:
     if not primeira_vez:
-        caminho = Path(__file__).parent.parent / 'dados' / 'dados.json'
+        caminho = Path(__file__).parent.parent / 'dados' / 'dados_usuario.json'
         with open(caminho, "r", encoding="utf-8") as arquivo:
             dados = load(arquivo)
         

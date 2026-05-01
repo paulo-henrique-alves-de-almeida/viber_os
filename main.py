@@ -17,7 +17,7 @@ from json import load
 if __name__ == '__main__':
     boot()
 
-    arquivo_dados = Path(__file__).parent / 'dados' / 'dados.json'
+    arquivo_dados = Path(__file__).parent / 'dados' / 'dados_usuario.json'
 
     if not arquivo_dados.exists():
         coletar_dados()
