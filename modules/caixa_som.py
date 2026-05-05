@@ -2,11 +2,10 @@ from pathlib import Path
 from pygame import mixer
 from json import load, dump
 
-musica_atual = ''
 class CaixaSom:
     _instance = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
@@ -36,7 +35,10 @@ class CaixaSom:
         if salvar_musica_atual:
             self.set_musica_atual(str(nome_musica))
 
-        if nome_musica == 'mute':   
+        if nome_musica == 'mute':
+            if self.get_busy_music():
+                self.pausar_musica()
+
             return
 
         mixer.music.load(Path(self.musicas / nome_musica))
@@ -49,10 +51,6 @@ class CaixaSom:
     def set_musica_atual(self, nome_musica: str):
         with open(self.musica_atual, "w+") as arquivo:
             dump({'musica_atual': nome_musica}, arquivo, indent=4, ensure_ascii=False)
-
-        if nome_musica == 'mute':
-            if self.get_busy_music():
-                self.pausar_musica()
 
     def pausar_musica(self):
         mixer.music.stop()
@@ -72,10 +70,8 @@ class CaixaSom:
 
         return musicas
 
+caixa_som = CaixaSom()
+
 if __name__ == '__main__':
-    caixa_som = CaixaSom()
     caixa_som.init()
     caixa_som.tocar_efeito('error.ogg.mp3')
-
-
-caixa_som = CaixaSom()

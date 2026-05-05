@@ -109,7 +109,7 @@ def menu(nome: str, nome_dados: str) -> None:
                         input()
                 
                 case '5' | 'help':
-                    with open(Path(__file__).parent / 'modules' / 'help.md', encoding='utf-8') as man:
+                    with open(Path(__file__).parent / 'help.md', encoding='utf-8') as man:
                         markdown = Markdown(man.read())
                     console.print()
                     console.print(Panel(markdown))
@@ -143,7 +143,7 @@ def menu(nome: str, nome_dados: str) -> None:
                                 comandos = {'clear': [1, 2], 'whoiam': [3, 4], 'pwd': [5, 6], 'hostname': [7, 8], 'uname': [9, 10], 'ls': [11, 14], 'man': [15, 18], 'cd': [19, 21], 'mkdir': [22, 25], 'touch': [26, 28], 'rm': [29, 31], 'rmdir': [32, 35], 'cat': [36, 38], 'echo': [39, 43], 'viber': [44, 46], 'calendar': [55, 56], 'music': [57, 58], 'vibegotchi': [59, 60], 'vibe_invaders': [61, 62], 'help': [47, 48], 'shutdown': [49, 50]}
                                 
                                 if comando_separado[1] in comandos:
-                                    caminho = Path(__file__).parent / 'modules' / 'help.md'
+                                    caminho = Path(__file__).parent / 'help.md'
                                     nome_comando = comando_separado[1]
 
                                     with open(caminho, 'r', encoding="utf-8") as helpmd:
@@ -231,7 +231,7 @@ def menu(nome: str, nome_dados: str) -> None:
 
                                 genai.configure(api_key="AIzaSyBAg_yUG5d1-y4-fBsTLIi29CfwJI9w28o")
 
-                                caminho = Path(__file__).parent / 'modules' / 'help.md'
+                                caminho = Path(__file__).parent / 'help.md'
                                 with open(caminho, "r", encoding="utf-8") as arquivo_instrucoes:
                                     instrucoes = arquivo_instrucoes.read()
                                     
