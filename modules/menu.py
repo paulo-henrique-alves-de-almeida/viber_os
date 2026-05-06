@@ -56,6 +56,8 @@ def menu(nome: str, nome_dados: str) -> None:
                 cabecalho(nome_dados)
                 mostrar_aplicativos()
                 console.print()
+            
+            aplicativo = False
                 
             comando = console.input(f'[light_green]{nome}@vibe-os:[/light_green]{gerenciador_pastas.get_caminho_home()} > ').strip()
 
@@ -66,39 +68,33 @@ def menu(nome: str, nome_dados: str) -> None:
 
                 case 'ls':
                     gerenciador_pastas.listar_pasta()
-                    aplicativo = False
                 
                 case 'cd..':
                     gerenciador_pastas.trocar_pasta('..')
-                    aplicativo = False
                 
                 case 'whoiam':
                     console.print(f'[magenta]{nome_dados}[/magenta]\n')
-                    aplicativo = False
                 
                 case 'pwd':
                     console.print(f'{gerenciador_pastas.get_caminho_home(False)}\n')
-                    aplicativo = False
                 
                 case 'hostname':
                     console.print('[light_green]vibe-os[/light_green]\n')
-                    aplicativo = False
                 
                 case 'uname':
                     console.print('Vibelinux 1.0\n')
-                    aplicativo = False
 
                 case '1' | 'calendar':
-                    calendario()
                     aplicativo = True
+                    calendario()
                 
                 case '2' | 'music':
-                    biblioteca_musicas()
                     aplicativo = True
+                    biblioteca_musicas()
                 
                 case '3' | 'vibegochi':
-                    pass
                     aplicativo = True
+                    pass
                 
                 case '4' | 'vibe_invaders':
                     aplicativo = True
@@ -111,7 +107,6 @@ def menu(nome: str, nome_dados: str) -> None:
                     console.print()
                     console.print(Panel(markdown))
                     console.print()
-                    aplicativo = False
                 
                 case '6' | 'shutdown':
                     sleep(1)
@@ -120,7 +115,6 @@ def menu(nome: str, nome_dados: str) -> None:
                 # segredos
                 case 'shrek':
                     pass
-                    aplicativo = False
                 
                 case 'rick':
                     aplicativo = True
@@ -129,14 +123,13 @@ def menu(nome: str, nome_dados: str) -> None:
                         video = VideoAscii('rickroll.mp4')
                         caixa_som.tocar_musica('Rickroll.mp3', 0.8, False, 0)
                         video.play()
-                    except KeyboardInterrupt:
+                    except (KeyboardInterrupt, EOFError):
                         caixa_som.pausar_musica()
                         continue
                     
                 # "else"
                 case _:
                     comando_separado = comando.split(' ')
-                    aplicativo = False
                     match comando_separado[0]:
                         case 'man':
                             if len(comando_separado) != 2:
@@ -278,7 +271,10 @@ def menu(nome: str, nome_dados: str) -> None:
                                 erro(f'Comando [italic]{comando}[/italic] desconhecido.')
         # except:
         except (KeyboardInterrupt, EOFError):
-            continue
+            if aplicativo:
+                continue
+            else:
+                console.print()
 
 if __name__ == '__main__':
     cabecalho('Paulo')

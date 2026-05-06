@@ -52,7 +52,7 @@ def biblioteca_musicas():
                 musica = int(musica)
 
                 if musica == -1:
-                    caixa_som.set_musica_atual('mute')
+                    caixa_som.tocar_musica('mute')
                     break
 
                 if musica == 0:
