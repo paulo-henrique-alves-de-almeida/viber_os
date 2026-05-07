@@ -6,6 +6,7 @@ from calendario import calendario
 from biblioteca import biblioteca_musicas
 from video2ascii import VideoAscii
 from space_invader import main_vibe_invader as vibe_invaders
+from modules.vibegotchi import main_vibegotchi as vibegotchi
 
 #importação da biblioteca rich
 from rich.align import Align

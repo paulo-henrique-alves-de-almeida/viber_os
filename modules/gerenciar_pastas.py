@@ -21,6 +21,7 @@ class GerenciadorPastas:
         try:
             Path(self.caminho_atual / nome_pasta).mkdir(parents=True)
             console.print(f'Diretório [bold]{nome_pasta}[/bold] criado com sucesso.\n')
+
         except FileExistsError:
             erro(f'O diretório [bold]{nome_pasta}[/bold] já existe.')
     
@@ -28,8 +29,10 @@ class GerenciadorPastas:
         try:
             Path(self.caminho_atual / nome_arquivo).touch(exist_ok=False)
             console.print(f'Arquivo [bold]{nome_arquivo}[/bold] criado com sucesso.\n')
+
         except FileExistsError:
             erro(f'O arquivo [bold]{nome_arquivo}[/bold] já existe.')
+
         except FileNotFoundError:
             erro('Pasta não encontrada.')
     
@@ -43,6 +46,7 @@ class GerenciadorPastas:
         if nome_pasta:
             if caminho.exists() and caminho.is_dir():
                 console.print(f'\n[magenta][bold]Diretório:[/bold] {self.get_caminho_home(False)}/{nome_pasta}[/magenta]')
+
             else:
                 erro('Caminho não encontrado.')
                 return
@@ -86,6 +90,7 @@ class GerenciadorPastas:
             try:
                 caminho.rmdir()
                 console.print(f'Diretório [bold]{nome_pasta}[/bold] deletado com sucesso.\n')
+                
             except OSError:
                 erro('Só é possível deletar pastas vazias.')
             

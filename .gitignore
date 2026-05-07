@@ -1,8 +1,10 @@
 # pastas e arquivos criadas durante a execução
-dados/
 home/
 score/
-*.json
+
+dados_usuario.json
+musica.json
+save.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
