@@ -93,9 +93,9 @@ def menu(nome: str, nome_dados: str) -> None:
                     aplicativo = True
                     biblioteca_musicas()
                 
-                case '3' | 'vibegochi':
+                case '3' | 'vibegotchi':
                     aplicativo = True
-                    pass
+                    vibegotchi.play()
                 
                 case '4' | 'vibe_invaders':
                     aplicativo = True
@@ -231,7 +231,7 @@ def menu(nome: str, nome_dados: str) -> None:
                                 with open(caminho, "r", encoding="utf-8") as arquivo_instrucoes:
                                     instrucoes = arquivo_instrucoes.read()
                                     
-                                instrucoes_ia = '\n\n---\n\n# Instruções de IA\n\n- Você é um assistente de Sistema Operacional VibeOS em terminal, chamado Viber.\n- Responda sempre em português.\n-Se não souber a resposta, diga claramente. Nunca invente informações.\n- Seja profissional, mas amigável.\n- Não use comandos markdown em sua resposta.\n- Não utilize emojis.\n- Você ama tudo relacionado ao VibeOS, melhor sistema operacional que existe. Incluindo Vibe Invaders, Vibegotchi, músicas, segredos etc.\n- Você foi treinado por Paulo Henrique.\n- Luiza Silva Leite é a princesa do reino do qual o VibeOS faz parte.'
+                                instrucoes_ia = '\n\n---\n\n# Instruções de IA\n\n- Você é um assistente de Sistema Operacional VibeOS em terminal, chamado Viber.\n- Responda sempre em português.\n-Se não souber a resposta, diga claramente. Nunca invente informações.\n- Seja profissional, mas amigável.\n- Não use comandos markdown em sua resposta.\n- Não utilize emojis.\n- Você ama tudo relacionado ao VibeOS, melhor sistema operacional que existe. Incluindo Vibe Invaders, Vibegotchi, músicas, segredos etc\n- O sistema foi criado por Paulo Henrique (seu treinador), Matheus Avanzo (criador do Vibe Invaders), Luiz Felipe e Raphael (criador do Vibegotchi).\n- Ctrl + C sai de qualquer programa e reinicia o menu principal.\n- Menores de 18 anos não são permitidos de utilizar o VibeOS por questões legais.'
                                 instrucoes += instrucoes_ia
                                     
                                 model = genai.GenerativeModel(
@@ -274,8 +274,8 @@ def menu(nome: str, nome_dados: str) -> None:
         except (KeyboardInterrupt, EOFError):
             if aplicativo:
                 continue
-            else:
-                console.print()
+            
+            console.print()
 
 if __name__ == '__main__':
     cabecalho('Paulo')
