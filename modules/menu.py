@@ -132,12 +132,12 @@ def menu(nome: str, nome_dados: str) -> None:
                     try:
                         caixa_som.tocar_musica('homens_queimem_a_vila.mp3', 0.8, False, 0)
 
-                        console.print('Homens, queimem a vila!!!!!')
+                        console.print('[bold red]Kratos:[/bold red] Homens, queimem a vila!!!!!')
                         sleep(2)
                         console.print('E o tempo de Atenas')
                         sleep(2)
                         console.print('Destruam turo')
-                        sleep(0.8)
+                        sleep(1)
                         console.print('e toros!!!')
                         sleep(2)
                         console.print('Vamos soldar nosso senhor ARESS!!!!!')
