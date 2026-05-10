@@ -7,13 +7,13 @@ from biblioteca import biblioteca_musicas
 from video2ascii import VideoAscii
 from space_invader import main_vibe_invader as vibe_invaders
 from modules.vibegotchi import main_vibegotchi as vibegotchi
+from modules.matrix_rain import hacker
 
-#importação da biblioteca rich
+# importação da biblioteca rich
 from rich.align import Align
 from rich.panel import Panel
 from rich import box
 from rich.markdown import Markdown
-from rich.panel import Panel
 
 # outras importações
 from pathlib import Path
@@ -114,6 +114,7 @@ def menu(nome: str, nome_dados: str) -> None:
                     break
 
                 # segredos
+
                 # case 'shrek':
                 #     pass
                 
@@ -127,6 +128,10 @@ def menu(nome: str, nome_dados: str) -> None:
                     except (KeyboardInterrupt, EOFError):
                         caixa_som.pausar_musica()
                         continue
+                
+                case 'hacker':
+                    aplicativo = True
+                    hacker(10)
                 
                 case 'soldar':
                     try:
@@ -155,72 +160,83 @@ def menu(nome: str, nome_dados: str) -> None:
                         case 'man':
                             if len(comando_separado) != 2:
                                 erro('Comando não reconhecido.')
-                            else:
-                                comandos = {'clear': [1, 2], 'whoiam': [3, 4], 'pwd': [5, 6], 'hostname': [7, 8], 'uname': [9, 10], 'ls': [11, 14], 'man': [15, 18], 'cd': [19, 21],
-                                'mkdir': [22, 25], 'touch': [26, 28], 'rm': [29, 31], 'rmdir': [32, 35], 'cat': [36, 38], 'echo': [39, 43], 'viber': [44, 46], 'calendar': [55, 56],
-                                'music': [57, 58], 'vibegotchi': [59, 60], 'vibe_invaders': [61, 62], 'help': [47, 48], 'shutdown': [49, 50]}
+                                continue
+
+                            comandos = {'clear': [1, 2], 'whoiam': [3, 4], 'pwd': [5, 6], 'hostname': [7, 8], 'uname': [9, 10],
+                            'ls': [11, 14], 'man': [15, 18], 'cd': [19, 21], 'mkdir': [22, 25], 'touch': [26, 28],
+                            'rm': [29, 31], 'rmdir': [32, 35], 'cat': [36, 38], 'echo': [39, 43], 'viber': [44, 46],
+                            'calendar': [55, 56], 'music': [57, 58], 'vibegotchi': [59, 60], 'vibe_invaders': [61, 62],
+                            'help': [47, 48], 'shutdown': [49, 50]}
                                 
-                                if comando_separado[1] in comandos:
-                                    caminho = Path(__file__).parent / 'help.md'
-                                    nome_comando = comando_separado[1]
+                            if comando_separado[1] in comandos:
+                                caminho = Path(__file__).parent / 'help.md'
+                                nome_comando = comando_separado[1]
 
-                                    with open(caminho, 'r', encoding="utf-8") as helpmd:
-                                        linhas = helpmd.readlines()
-                                        linhas = linhas[comandos[nome_comando][0]:comandos[nome_comando][1]]
-                                        texto_parcial = ''.join(linhas)
+                                with open(caminho, 'r', encoding="utf-8") as helpmd:
+                                    linhas = helpmd.readlines()
+                                    linhas = linhas[comandos[nome_comando][0]:comandos[nome_comando][1]]
+                                    texto_parcial = ''.join(linhas)
 
-                                    markdown = Markdown(texto_parcial)
-                                    console.print()
-                                    console.print(Panel(markdown))
-                                    console.print()
-                                else:
-                                    erro('Comando não reconhecido.')
+                                markdown = Markdown(texto_parcial)
+                                console.print()
+                                console.print(Panel(markdown))
+                                console.print()
+                                continue
+
+                            erro('Comando não reconhecido.')
                         
                         case 'ls':
                             if len(comando_separado) != 2:
                                 erro('Caminho não encontrado.')
-                            else:
-                                gerenciador_pastas.listar_pasta(comando_separado[1])
+                                continue
+
+                            gerenciador_pastas.listar_pasta(comando_separado[1])
 
                         case 'cd':
                             if len(comando_separado) != 2:
                                 erro('Caminho não encontrado.')
-                            else:
-                                gerenciador_pastas.trocar_pasta(comando_separado[1])
+                                continue
+
+                            gerenciador_pastas.trocar_pasta(comando_separado[1])
                         
                         case 'mkdir':
                             if len(comando_separado) < 2:
                                 aviso('Esperava o nome do diretório para ser criado.')
-                            else:
-                                for command in comando_separado:
-                                    if command != 'mkdir':
-                                        gerenciador_pastas.criar_pasta(command)
+                                continue
+                                
+                            for command in comando_separado:
+                                if command != 'mkdir':
+                                    gerenciador_pastas.criar_pasta(command)
                         
                         case 'touch':
                             if len(comando_separado) != 2:
                                 erro('Comando inválido.')
-                            else:
-                                gerenciador_pastas.criar_arquivo(comando_separado[1])
+                                continue
+
+                            gerenciador_pastas.criar_arquivo(comando_separado[1])
 
                         case 'rm':
                             if len(comando_separado) != 2:
                                 erro('Arquivo não encontrado.')
-                            else:
-                                gerenciador_pastas.deletar_arquivo(comando_separado[1])
+                                continue
+
+                            gerenciador_pastas.deletar_arquivo(comando_separado[1])
                         
                         case 'rmdir':
                             if len(comando_separado) < 2:
                                 erro('Diretório não encontrado')
-                            else:
-                                for command in comando_separado:
-                                    if command != 'rmdir':
-                                        gerenciador_pastas.deletar_pasta(command)
+                                continue
+
+                            for command in comando_separado:
+                                if command != 'rmdir':
+                                    gerenciador_pastas.deletar_pasta(command)
                         
                         case 'cat':
                             if len(comando_separado) != 2:
                                 erro('Arquivo não encontrado.')
-                            else:
-                                gerenciador_pastas.ler_arquivo(comando_separado[1])
+                                continue
+                            
+                            gerenciador_pastas.ler_arquivo(comando_separado[1])
 
                         case 'echo':
                             match len(comando_separado):
@@ -244,46 +260,65 @@ def menu(nome: str, nome_dados: str) -> None:
                         case 'viber':
                             if len(comando_separado) < 2:
                                 aviso('Prompt esperado.')
-                            else:
-                                console.print('>>> Pensando[green]...[/green]\n')
+                                continue
+                                
+                            console.print('>>> Pensando[green]...[/green]\n')
 
-                                genai.configure(api_key="AIzaSyBAg_yUG5d1-y4-fBsTLIi29CfwJI9w28o")
+                            genai.configure(api_key="AIzaSyBAg_yUG5d1-y4-fBsTLIi29CfwJI9w28o")
 
-                                caminho = Path(__file__).parent / 'help.md'
-                                with open(caminho, "r", encoding="utf-8") as arquivo_instrucoes:
+                            caminho = Path(__file__).parent / 'help.md'
+                            with open(caminho, "r", encoding="utf-8") as arquivo_instrucoes:
                                     instrucoes = arquivo_instrucoes.read()
                                     
-                                instrucoes_ia = '''\n\n---\n\n
-                                # Instruções de IA
-                                - Você é um assistente de Sistema Operacional VibeOS em terminal, chamado Viber.
-                                - Responda sempre em português.\n-Se não souber a resposta, diga claramente. Nunca invente informações.
-                                - Seja profissional, mas amigável.\n- Não use comandos markdown em sua resposta.
-                                - Não utilize emojis.
-                                - Você ama tudo relacionado ao VibeOS, melhor sistema operacional que existe. Incluindo Vibe Invaders, Vibegotchi, músicas, segredos etc
-                                - O sistema foi criado por Paulo Henrique (seu treinador), Matheus Avanzo (criador do Vibe Invaders), Luiz Felipe e Raphael (criador do Vibegotchi).
-                                - Ctrl + C sai de qualquer programa e reinicia o menu principal.
-                                - Menores de 18 anos não são permitidos de utilizar o VibeOS por questões legais.'''
+                            instrucoes_ia = '''\n\n---\n\n
+                            # Instruções de IA
+                            - Você é um assistente de Sistema Operacional VibeOS em terminal, chamado Viber.
+                            - Responda sempre em português.\n-Se não souber a resposta, diga claramente. Nunca invente informações.
+                            - Seja profissional, mas amigável.\n- Não use comandos markdown em sua resposta.
+                            - Não utilize emojis.
+                            - Você ama tudo relacionado ao VibeOS, melhor sistema operacional que existe. Incluindo Vibe Invaders, Vibegotchi, músicas, segredos etc
+                            - O sistema foi criado por Paulo Henrique (seu treinador), Matheus Avanzo (criador do Vibe Invaders), Luiz Felipe e Raphael (criador do Vibegotchi).
+                            - Ctrl + C sai de qualquer programa e reinicia o menu principal.
+                            - Menores de 18 anos não são permitidos de utilizar o VibeOS por questões legais.
+                            - Caso o usuário tenha alguma dúvida, peça-o para entrar em contato pelo email: vibercodasagent@gmail.com'''
 
-                                instrucoes += instrucoes_ia
+                            instrucoes += instrucoes_ia
                                     
-                                model = genai.GenerativeModel(
-                                    model_name='gemini-flash-latest',
-                                    system_instruction=instrucoes
-                                )
+                            model = genai.GenerativeModel(
+                                model_name='gemini-flash-latest',
+                                system_instruction=instrucoes
+                            )
 
-                                prompt = ''
-                                for command in comando_separado:
-                                    prompt += command
+                            prompt = ''
+                            for command in comando_separado:
+                                prompt += command
 
-                                try:
-                                    response = model.generate_content(prompt)
+                            try:
+                                response = model.generate_content(prompt)
 
-                                    console.print(f'[bold blue]Viber[/bold blue]: {response.text}\n')
-                                except ResourceExhausted:
-                                    aviso('Limite de requisições atingido. Espere um minuto e tente novamente.')
-                                except:
-                                    erro(f'Viber não está disponível no momento.')
+                                console.print(f'[bold blue]Viber[/bold blue]: {response.text}\n')
+
+                            except ResourceExhausted:
+                                aviso('Limite de requisições atingido. Espere um minuto e tente novamente.')
+
+                            except:
+                                erro(f'Viber não está disponível no momento.')
                         
+                        case 'hacker':
+                            if len(comando_separado) != 2:
+                                erro('Comando inválido.')
+
+                            try:
+                                segundos = float(comando_separado[1])
+                                if segundos < 1:
+                                    aviso('O valor deve ser maior que 0 para que funcione.')
+                                    continue
+                                
+                                aplicativo = True
+                                hacker(float(comando_separado[1]))
+
+                            except ValueError:
+                                erro('Comando inválido.')
                         case _:
                             calculadora = SimpleEval(functions={}, names={})
                             calculadora.disallow_attributes = True
@@ -296,10 +331,13 @@ def menu(nome: str, nome_dados: str) -> None:
                                 console.print(f'>>> {resultado:g}\n')
                             except ZeroDivisionError:
                                 console.print('>>> Indefinido ou indeterminado. \n')
+
                             except OperatorNotDefined:
                                 erro('Operador desconhecido')
+
                             except NumberTooHigh:
                                 aviso('A expressão é grande demais.')
+
                             except:
                                 erro(f'Comando [italic]{comando}[/italic] desconhecido.')
         # except:
