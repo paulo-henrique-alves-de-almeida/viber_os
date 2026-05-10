@@ -133,7 +133,7 @@ def menu(nome: str, nome_dados: str) -> None:
                     aplicativo = True
                     hacker(10)
                 
-                case 'soldar':
+                case 'soldar' | 'kratos' | 'ares':
                     try:
                         caixa_som.tocar_musica('homens_queimem_a_vila.mp3', 0.8, False, 0)
 
@@ -345,7 +345,9 @@ def menu(nome: str, nome_dados: str) -> None:
             if aplicativo:
                 continue
             
-            console.print()
+            console.print('\n')
+    
+    caixa_som.pausar_musica()
 
 if __name__ == '__main__':
     cabecalho('Paulo')
