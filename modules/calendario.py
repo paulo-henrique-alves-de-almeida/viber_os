@@ -29,7 +29,7 @@ def obter_ano_valido() -> int:
             erro('Digite um ano válido.')
     
 
-def obter_mes_valido(mes: int | str) -> int:
+def obter_mes_valido() -> int:
     while True:
         try:
             mes_input = console.input("Digite um mês (nome ou número): ").lower().strip()
@@ -62,7 +62,7 @@ def obter_dia_valido(ano: int, mes: int) -> int:
         try:
             dia = int(console.input(f"Digite o dia (1-{ultimo_dia}): "))
 
-            if verificar_dia_valido(dia, ano, mes)[0]:
+            if verificar_dia_valido(dia, ano, mes):
                 return dia
             
             aviso('Digite um dia válido.')
