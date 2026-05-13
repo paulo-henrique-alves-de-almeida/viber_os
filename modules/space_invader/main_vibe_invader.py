@@ -9,7 +9,7 @@ from modules.space_invader.save import load_highscore, save_highscore
 from modules.space_invader import sound
 
 
-def main():
+def main() -> None:
     state = "menu"
     game = None
     highscore = load_highscore()

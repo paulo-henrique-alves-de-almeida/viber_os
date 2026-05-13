@@ -1,5 +1,5 @@
 from rich.console import Console
-from caixa_som import CaixaSom
+from caixa_som import caixa_som
 
 import os
 
@@ -10,7 +10,6 @@ def limpar_tela() -> None:
 
 def som_erro(func):
     def wrapper(*args, **kwargs):
-        caixa_som = CaixaSom()
         caixa_som.init()
 
         func(*args, **kwargs)

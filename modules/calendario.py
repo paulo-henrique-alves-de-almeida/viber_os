@@ -15,7 +15,7 @@ MESES = [
     'jan', 'fev', 'mar', 'abril', 'maio' 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'
 ]
 
-def obter_ano_valido() -> None:
+def obter_ano_valido() -> int:
     while True:
         try:
             ano = int(console.input("Digite um ano: "))
@@ -29,7 +29,7 @@ def obter_ano_valido() -> None:
             erro('Digite um ano válido.')
     
 
-def obter_mes_valido(mes: int | str):
+def obter_mes_valido(mes: int | str) -> int:
     while True:
         try:
             mes_input = console.input("Digite um mês (nome ou número): ").lower().strip()
@@ -56,7 +56,7 @@ def obter_mes_valido(mes: int | str):
         except:
             erro('Digite um mês válido.')
 
-def obter_dia_valido(ano: int, mes: int | str) -> int:
+def obter_dia_valido(ano: int, mes: int) -> int:
     _, ultimo_dia = calendar.monthrange(ano, mes)
     while True:
         try:
@@ -77,13 +77,13 @@ def verificar_ano_valido(ano: int) -> bool:
 def verificar_mes_valido(mes: int) -> bool:
     return 1 <= mes <= 12
 
-def verificar_dia_valido(dia: int, ano: int, mes: int | str) -> bool:
+def verificar_dia_valido(dia: int, ano: int, mes: int) -> bool:
     _, ultimo_dia = calendar.monthrange(ano, mes)
     
     return 1 <= dia <= ultimo_dia
 
 
-def exibir_calendario(ano: int, mes: int | str, dia_escolhido: int) -> None:
+def exibir_calendario(ano: int, mes: int, dia_escolhido: int) -> None:
     cal = calendar.monthcalendar(ano, mes)
     titulo = f"\n[bold green3]{MESES[mes-1].upper()} / {ano}[/bold green3]"
     tabela = Table(title=titulo, show_lines=True, header_style="bold green3")
@@ -106,7 +106,7 @@ def exibir_calendario(ano: int, mes: int | str, dia_escolhido: int) -> None:
     console.print(tabela)
 
 
-def calendario():
+def calendario() -> None:
     agora = datetime.now()
     ano_exibido, mes_exibido, dia_exibido = agora.year, agora.month, agora.day
 

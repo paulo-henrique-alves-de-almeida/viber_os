@@ -24,7 +24,7 @@ from simpleeval import SimpleEval, OperatorNotDefined, NumberTooHigh
 import google.generativeai as genai
 from google.api_core.exceptions import ResourceExhausted
 
-def cabecalho(nome: str):
+def cabecalho(nome: str) -> None:
     limpar_tela()
 
     console.print(Panel(Align.center(f'User: {nome}  |  Music: {Path(caixa_som.get_musica_atual()).stem}  |  Date: {date.today()}'), border_style="green", box=box.SIMPLE_HEAD, expand=False), justify="center")

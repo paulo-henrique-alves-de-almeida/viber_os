@@ -65,7 +65,7 @@ class Game:
         return self.enemy_speed + self._speed_increment * (self.wave - 1)
 
    
-    def update(self):
+    def update(self) -> None:
         
         if self.bullet:
             self.bullet[1] -= 1
@@ -110,7 +110,7 @@ class Game:
             self._wave_cleared = False
 
 
-    def handle_input(self, key):
+    def handle_input(self, key) -> None:
         if (key == b'a' or key == b'K') and self.player_pos > 0:
             self.player_pos -= 1
         elif (key == b'd' or key == b'M') and self.player_pos < WIDTH - 1:
@@ -120,7 +120,7 @@ class Game:
             sound.play_shoot()
 
    
-    def draw(self):
+    def draw(self) -> Align:
         screen = [[" " for _ in range(WIDTH)] for _ in range(HEIGHT)]
 
         screen[HEIGHT - 1][self.player_pos] = PLAYER_CHAR

@@ -31,7 +31,7 @@ def carregar_jogo() -> None:
     
     return None
 
-def checar_vida(pet) -> bool:
+def checar_vida(pet: Vibegotchi) -> bool:
     condicoes = [
         (pet.aura <= 0,      f"{pet.nome} perdeu toda a sua aura e se foi..."),
         (pet.aura >= 1000,   f"{pet.nome} atingiu a aura máxima e se tornou um ser de pura energia!"),

@@ -6,7 +6,7 @@ from pathlib import Path
 # SAVE_FILE é o caminho absoluto do arquivo de save
 SAVE_FILE = Path(__file__).parent / "score" / "save.json"
 
-def load_highscore():
+def load_highscore() -> 0 | int:
     if not SAVE_FILE.exists():
         return 0
 
@@ -15,7 +15,7 @@ def load_highscore():
         return data.get("highscore", 0)
 
 
-def save_highscore(score):
+def save_highscore(score) -> None:
     # cria a pasta de score antes salvá-lo
     SAVE_FILE.parent.mkdir(parents=True, exist_ok=True)
     

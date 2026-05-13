@@ -4,7 +4,7 @@ from rich.text import Text
 from rich.console import Group
 from art import text2art
 
-def draw_menu():
+def draw_menu() -> Align:
     titulo = Text(text2art("VIBE  INVADERS"), style="green")
     
     menu = Text("\n\n[A] Jogar\n\n[Q] Sair\n\n\n", style="bold green", justify='center')
@@ -18,7 +18,7 @@ def draw_menu():
     return Align.center(panel, vertical="middle")
 
 
-def draw_gameover(wave, score, highscore):
+def draw_gameover(wave, score, highscore) -> Align:
     titulo = Text(text2art("GAME OVER"), style="bold red")
     
     dados = Text(justify="center")

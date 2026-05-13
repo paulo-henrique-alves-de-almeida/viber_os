@@ -1,9 +1,10 @@
 from json import load
 from pathlib import Path
+from pet import Vibegotchi
 
 SAVE_PATH = Path(__file__).parent / 'dados' / 'vibes.json'
 
-def pegar_vibe(pet):
+def pegar_vibe(pet: Vibegotchi) -> str:
     with open(SAVE_PATH, "r", encoding="utf-8") as sprite:
         vibes = load(sprite)
 
