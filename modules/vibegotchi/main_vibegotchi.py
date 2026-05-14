@@ -19,6 +19,7 @@ import json
 SAVE = Path(__file__).parent / 'dados' / 'save.json'
 
 def salvar_jogo(pet: Vibegotchi) -> None:
+    SAVE.parent.mkdir(parents=True, exist_ok=True)
     with open(SAVE, "w+", encoding="utf-8") as arquivo:
         json.dump(pet.para_dict(), arquivo, indent=4)
 

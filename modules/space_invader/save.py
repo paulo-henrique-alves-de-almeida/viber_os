@@ -6,7 +6,7 @@ from pathlib import Path
 # SAVE_FILE é o caminho absoluto do arquivo de save
 SAVE_FILE = Path(__file__).parent / "score" / "save.json"
 
-def load_highscore() -> 0 | int:
+def load_highscore() -> int | str:
     if not SAVE_FILE.exists():
         return 0
 
