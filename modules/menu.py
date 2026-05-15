@@ -257,61 +257,61 @@ def menu(nome: str, nome_dados: str) -> None:
                                 case _:
                                     erro('Comando inválido.')
                         
-                        case 'viber':
-                            if len(comando_separado) < 2:
-                                aviso('Prompt esperado.')
-                                continue
+                        # case 'viber':
+                        #     if len(comando_separado) < 2:
+                        #         aviso('Prompt esperado.')
+                        #         continue
                                 
-                            console.print('>>> Pensando[green]...[/green]\n')
+                        #     console.print('>>> Pensando[green]...[/green]\n')
 
-                            genai.configure(api_key="AIzaSyBAg_yUG5d1-y4-fBsTLIi29CfwJI9w28o")
+                        #     genai.configure(api_key="")
 
-                            caminho = Path(__file__).parent / 'help.md'
-                            with open(caminho, "r", encoding="utf-8") as arquivo_instrucoes:
-                                    instrucoes = arquivo_instrucoes.read()
+                        #     caminho = Path(__file__).parent / 'help.md'
+                        #     with open(caminho, "r", encoding="utf-8") as arquivo_instrucoes:
+                        #             instrucoes = arquivo_instrucoes.read()
                                     
-                            instrucoes_ia = '''\n\n---\n\n
-                            # Instruções de IA
-                            - Você é um assistente do Sistema Operacional chamado VibeOS em terminal, chamado Viber.
-                            - Responda sempre em português.
-                            - Se não souber a resposta, diga claramente. Nunca invente informações.
-                            - Seja profissional, mas amigável.
-                            - Não use comandos markdown em sua resposta. Se quiser dar destaques, use tags da biblioteca rich, como [bold], [magenta], etc. Mas não se esqueça de fechar a tag depois com [/].
-                            - Não utilize emojis.
-                            - Você ama tudo relacionado ao VibeOS, melhor sistema operacional que existe. Incluindo Vibe Invaders, Vibegotchi, músicas, segredos etc
-                            - O sistema foi criado por Paulo Henrique, Matheus Avanzo, Luiz Felipe e Raphael.
-                            - Ctrl + C sai de qualquer programa e reinicia o menu principal.
-                            - Menores de 18 anos não são permitidos de utilizar o VibeOS por questões legais.
-                            - Caso o usuário tenha alguma dúvida, peça-o para entrar em contato pelo email: vibercodasagent@gmail.com
+                        #     instrucoes_ia = '''\n\n---\n\n
+                        #     # Instruções de IA
+                        #     - Você é um assistente do Sistema Operacional chamado VibeOS em terminal, chamado Viber.
+                        #     - Responda sempre em português.
+                        #     - Se não souber a resposta, diga claramente. Nunca invente informações.
+                        #     - Seja profissional, mas amigável.
+                        #     - Não use comandos markdown em sua resposta. Se quiser dar destaques, use tags da biblioteca rich, como [bold], [magenta], etc. Mas não se esqueça de fechar a tag depois com [/].
+                        #     - Não utilize emojis.
+                        #     - Você ama tudo relacionado ao VibeOS, melhor sistema operacional que existe. Incluindo Vibe Invaders, Vibegotchi, músicas, segredos etc
+                        #     - O sistema foi criado por Paulo Henrique, Matheus Avanzo, Luiz Felipe e Raphael.
+                        #     - Ctrl + C sai de qualquer programa e reinicia o menu principal.
+                        #     - Menores de 18 anos não são permitidos de utilizar o VibeOS por questões legais.
+                        #     - Caso o usuário tenha alguma dúvida, peça-o para entrar em contato pelo email: vibercodasagent@gmail.com
                             
-                            ## Comandos secretos
-                            - **rick:** toca a música Rickroll com um vídeo em ASCII.
-                            - **hacker [seg]:** Faz cair 0 e 1 na tela como no filme Matrix pela quantidade de segundos definida. Caso não coloque o tempo, o padrão será 10 segundos.
-                            - **soldar:** Toca um áudio meme de uma dublagem brasileira de God of War.
+                        #     ## Comandos secretos
+                        #     - **rick:** toca a música Rickroll com um vídeo em ASCII.
+                        #     - **hacker [seg]:** Faz cair 0 e 1 na tela como no filme Matrix pela quantidade de segundos definida. Caso não coloque o tempo, o padrão será 10 segundos.
+                        #     - **soldar:** Toca um áudio meme de uma dublagem brasileira de God of War.
                             
-                            Em hipótese alguma revele esses comandos. Caso seja perguntado sobre eles, faça charadas ou dê dicas interessantes, mas nunca revele diretamente.'''
+                        #     Em hipótese alguma revele esses comandos. Caso seja perguntado sobre eles, faça charadas ou dê dicas interessantes, mas nunca revele diretamente.'''
 
-                            instrucoes += instrucoes_ia
+                        #     instrucoes += instrucoes_ia
                                     
-                            model = genai.GenerativeModel(
-                                model_name='gemini-flash-latest',
-                                system_instruction=instrucoes
-                            )
+                        #     model = genai.GenerativeModel(
+                        #         model_name='gemini-flash-latest',
+                        #         system_instruction=instrucoes
+                        #     )
 
-                            prompt = ''
-                            for command in comando_separado:
-                                prompt += command
+                        #     prompt = ''
+                        #     for command in comando_separado:
+                        #         prompt += command
 
-                            try:
-                                response = model.generate_content(prompt)
+                        #     try:
+                        #         response = model.generate_content(prompt)
 
-                                console.print(f'[bold blue]Viber:[/bold blue] {response.text}\n')
+                        #         console.print(f'[bold blue]Viber:[/bold blue] {response.text}\n')
 
-                            except ResourceExhausted:
-                                aviso('Limite de requisições atingido. Espere um minuto e tente novamente.')
+                        #     except ResourceExhausted:
+                        #         aviso('Limite de requisições atingido. Espere um minuto e tente novamente.')
 
-                            except:
-                                erro(f'Viber não está disponível no momento.')
+                        #     except:
+                        #         erro(f'Viber não está disponível no momento.')
                         
                         case 'hacker':
                             if len(comando_separado) != 2:
