@@ -1,6 +1,6 @@
 # VibeOS
 
-An operating system inspired by retro green-screen terminals, nostalgic cyber aesthetics, and classic computers.
+An pseudo-operating system inspired by retro green-screen terminals, nostalgic cyber aesthetics, and classic computers.
 
 VibeOS delivers an immersive terminal-based experience, mixing minimalism, arcade atmosphere, and command-line interaction.
 
