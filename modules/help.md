@@ -9,6 +9,8 @@
 
 **uname:** Imprime o kernel do sistema e sua versão.
 
+**protect:** Protege a tela para que não queime.
+
 **ls:** Lista os arquivos e diretórios do diretório de trabalho atual. Diz quantos diretórios e arquivos arquivos.
 - Opcionalmente, pode ser combinado (separado por espaço) com o nome de outro diretório ou caminho para mostrar seus diretórios e arquivos.
 - Seguindo a forma: `ls [nome_pasta ou caminho]`.

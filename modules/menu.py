@@ -8,6 +8,7 @@ from video2ascii import VideoAscii
 from space_invader import main_vibe_invader as vibe_invaders
 from modules.vibegotchi import main_vibegotchi as vibegotchi
 from modules.matrix_rain import hacker
+from modules.dvd import dvd
 
 # importação da biblioteca rich
 from rich.align import Align
@@ -132,6 +133,14 @@ def menu(nome: str, nome_dados: str) -> None:
                 case 'hacker':
                     aplicativo = True
                     hacker(10)
+
+                case 'dvd' | 'protect':
+                    aplicativo = True
+
+                    try:
+                        dvd()
+                    except (KeyboardInterrupt, EOFError):
+                        continue
                 
                 case 'soldar' | 'kratos' | 'ares':
                     try:
@@ -163,10 +172,10 @@ def menu(nome: str, nome_dados: str) -> None:
                                 continue
 
                             comandos = {'clear': [1, 2], 'whoiam': [3, 4], 'pwd': [5, 6], 'hostname': [7, 8], 'uname': [9, 10],
-                            'ls': [11, 14], 'man': [15, 18], 'cd': [19, 21], 'mkdir': [22, 25], 'touch': [26, 28],
-                            'rm': [29, 31], 'rmdir': [32, 35], 'cat': [36, 38], 'echo': [39, 43], 'viber': [44, 46],
-                            'calendar': [55, 56], 'music': [57, 58], 'vibegotchi': [59, 60], 'vibe_invaders': [61, 62],
-                            'help': [47, 48], 'shutdown': [49, 50]}
+                            'protect': [11, 12], 'ls': [13, 16], 'man': [17, 20], 'cd': [21, 23], 'mkdir': [24, 27], 'touch': [28, 30],
+                            'rm': [31, 33], 'rmdir': [35, 37], 'cat': [38, 40], 'echo': [41, 45], 'viber': [46, 48],
+                            'calendar': [57, 58], 'music': [59, 60], 'vibegotchi': [61, 62], 'vibe_invaders': [63, 64],
+                            'help': [49, 50], 'shutdown': [51, 52]}
                                 
                             if comando_separado[1] in comandos:
                                 caminho = Path(__file__).parent / 'help.md'
@@ -257,7 +266,8 @@ def menu(nome: str, nome_dados: str) -> None:
                                 case _:
                                     erro('Comando inválido.')
                         
-                        # case 'viber':
+                        case 'viber':
+                            aviso('Viber está dormindo, por enquanto.')
                         #     if len(comando_separado) < 2:
                         #         aviso('Prompt esperado.')
                         #         continue
@@ -349,7 +359,6 @@ def menu(nome: str, nome_dados: str) -> None:
 
                             except:
                                 erro(f'Comando [italic]{comando_separado[0]}[/italic] desconhecido.')
-        # except:
         except (KeyboardInterrupt, EOFError):
             if aplicativo:
                 continue
