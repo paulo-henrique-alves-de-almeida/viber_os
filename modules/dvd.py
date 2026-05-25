@@ -8,7 +8,7 @@ import time, random
 from threading import Thread, Event
 from art import text2art
 
-LOGO = text2art('DVD').splitlines()
+LOGO = text2art('VibeOS').splitlines()
 
 COLORS = ["red", "green", "yellow", "blue", "magenta", "cyan", "bright_white"]
 
