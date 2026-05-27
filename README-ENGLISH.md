@@ -10,7 +10,7 @@ VibeOS delivers an immersive terminal-based experience, combining minimalism, ar
 
 ### What’s new in 1.1.0
 
-- New style system: RETRO / VIBE
+- New style system in Vibe Invaders: RETRO / VIBE
 - Final boss added: Vibe Destroyer
 - Achievement system implemented (10 total)
 - 5 original soundtrack tracks added
@@ -19,7 +19,7 @@ VibeOS delivers an immersive terminal-based experience, combining minimalism, ar
 
 ---
 
-## 🎮 Styles
+## 🎮 Vibe Invaders Styles
 
 ### RETRO
 - Classic visuals from version 1.0
