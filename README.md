@@ -44,7 +44,17 @@ Total: 10 conquistas
 
 ---
 
-## 🎮 Recursos
+### Navegação dos Aplicativos
+
+Os aplicativos internos do VibeOS utilizam um sistema de navegação inspirado em jogos retrô.
+
+A navegação é feita utilizando as setas direcionais e a tecla `Enter`, proporcionando uma experiência mais fluida e imersiva dentro dos aplicativos.
+
+O terminal principal do VibeOS permanece baseado em comandos tradicionais.
+
+---
+
+## Recursos
 
 - Terminal retrô com interface monocromática verde
 - Sistema de arquivos simulado
@@ -56,7 +66,7 @@ Total: 10 conquistas
 
 ---
 
-## 📦 Aplicativos Integrados
+## Aplicativos Integrados
 
 | Aplicativo | Descrição |
 |-------------|-----------|
@@ -67,7 +77,7 @@ Total: 10 conquistas
 
 ---
 
-## 🧮 Expressões Matemáticas
+## Expressões Matemáticas
 
 O terminal suporta cálculos simples:
 
