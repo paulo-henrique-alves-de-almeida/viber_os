@@ -142,4 +142,6 @@ if __name__ == '__main__':
     sleep(1)
     coletar_dados()
     sleep(1)
+    checar_sehha()
+    sleep(1)
     desligamento()

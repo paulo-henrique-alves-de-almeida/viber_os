@@ -11,8 +11,8 @@ class CaixaSom:
         return cls._instance
     
     def __init__(self):
-        self.musicas = Path(__file__).parent.parent / 'medias/sons/musicas'
-        self.efeitos = Path(__file__).parent.parent / 'medias/sons/efeitos'
+        self.musicas = Path(__file__).parent.parent / 'medias' / 'sons' / 'musicas'
+        self.efeitos = Path(__file__).parent.parent / 'medias' / 'sons' / 'efeitos'
 
         self.musica_atual = Path(__file__).parent.parent / 'dados' / 'musica.json'
     
@@ -20,18 +20,18 @@ class CaixaSom:
         if not mixer.get_init():
             mixer.init()
     
-    def get_musica_atual(self):
+    def get_musica_atual(self) -> str:
         with open(self.musica_atual, 'r') as arquivo:
             dados = load(arquivo)
         
         return dados['musica_atual']
 
-    def tocar_efeito(self, nome_efeito: str, volume: float = 1):
+    def tocar_efeito(self, nome_efeito: str, volume: float = 1) -> None:
         efeito = mixer.Sound(Path(self.efeitos / nome_efeito))
         efeito.play()
         efeito.set_volume(volume)
 
-    def tocar_musica(self, nome_musica: str, volume: float = 1, salvar_musica_atual: bool = True, loop: int = -1, fadeout: float = 0):
+    def tocar_musica(self, nome_musica: str, volume: float = 1, salvar_musica_atual: bool = True, loop: int = -1, fadeout: float = 0) -> None:
         if salvar_musica_atual:
             self.set_musica_atual(str(nome_musica))
 
@@ -48,19 +48,19 @@ class CaixaSom:
         if fadeout:
             mixer.music.fadeout(fadeout)
     
-    def set_musica_atual(self, nome_musica: str):
+    def set_musica_atual(self, nome_musica: str) -> None:
         self.musica_atual.parent.mkdir(parents=True, exist_ok=True)
 
         with open(self.musica_atual, "w+") as arquivo:
             dump({'musica_atual': nome_musica}, arquivo, indent=4, ensure_ascii=False)
 
-    def pausar_musica(self):
+    def pausar_musica(self) -> None:
         mixer.music.stop()
     
     def get_busy_music(self) -> bool:
         return mixer.music.get_busy()
     
-    def listar_musicas(self) -> list[Path]:
+    def listar_musicas(self) -> list[str]:
         musicas_sistema = ['playstation-2-startup-intro-ps2.mp3', 'Rickroll.mp3', 'homens_queimem_a_vila.mp3']
 
         musicas = [

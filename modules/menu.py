@@ -1,5 +1,10 @@
 # importação de modules internos
+from sys import modules
+from unittest import case
+
 from console import console, erro, aviso, limpar_tela
+from modules import achievements
+from modules.achievements.main_achievements import main as achievements_main
 from modules.gerenciar_pastas import gerenciador_pastas
 from caixa_som import caixa_som
 from calendario import calendario
@@ -8,6 +13,7 @@ from video2ascii import VideoAscii
 from space_invader import main_vibe_invader as vibe_invaders
 from modules.vibegotchi import main_vibegotchi as vibegotchi
 from modules.matrix_rain import hacker
+from modules.dvd import dvd
 
 # importação da biblioteca rich
 from rich.align import Align
@@ -24,7 +30,7 @@ from simpleeval import SimpleEval, OperatorNotDefined, NumberTooHigh
 import google.generativeai as genai
 from google.api_core.exceptions import ResourceExhausted
 
-def cabecalho(nome: str):
+def cabecalho(nome: str) -> None:
     limpar_tela()
 
     console.print(Panel(Align.center(f'User: {nome}  |  Music: {Path(caixa_som.get_musica_atual()).stem}  |  Date: {date.today()}'), border_style="green", box=box.SIMPLE_HEAD, expand=False), justify="center")
@@ -41,9 +47,11 @@ def mostrar_aplicativos():
                         
 [4] Vibe Invaders
                         
-[5] Ajuda
+[5] Conquistas
                         
-[6] Desligar sistema'''))
+[6] Ajuda
+                        
+[7] Desligar sistema'''))
     
 def menu(nome: str, nome_dados: str) -> None:
     aplicativo = True
@@ -101,15 +109,21 @@ def menu(nome: str, nome_dados: str) -> None:
                     aplicativo = True
                     limpar_tela()
                     vibe_invaders.main()
+
+                case '5' | 'conquistas':
+                    aplicativo = True
+                    limpar_tela()
+                    achievements_main()  
+    
                 
-                case '5' | 'help':
+                case '6' | 'help':
                     with open(Path(__file__).parent / 'help.md', encoding='utf-8') as man:
                         markdown = Markdown(man.read())
                     console.print()
                     console.print(Panel(markdown))
                     console.print()
                 
-                case '6' | 'shutdown':
+                case '7' | 'shutdown':
                     sleep(1)
                     break
 
@@ -132,6 +146,14 @@ def menu(nome: str, nome_dados: str) -> None:
                 case 'hacker':
                     aplicativo = True
                     hacker(10)
+
+                case 'dvd' | 'protect':
+                    aplicativo = True
+
+                    try:
+                        dvd()
+                    except (KeyboardInterrupt, EOFError):
+                        continue
                 
                 case 'soldar' | 'kratos' | 'ares':
                     try:
@@ -163,10 +185,10 @@ def menu(nome: str, nome_dados: str) -> None:
                                 continue
 
                             comandos = {'clear': [1, 2], 'whoiam': [3, 4], 'pwd': [5, 6], 'hostname': [7, 8], 'uname': [9, 10],
-                            'ls': [11, 14], 'man': [15, 18], 'cd': [19, 21], 'mkdir': [22, 25], 'touch': [26, 28],
-                            'rm': [29, 31], 'rmdir': [32, 35], 'cat': [36, 38], 'echo': [39, 43], 'viber': [44, 46],
-                            'calendar': [55, 56], 'music': [57, 58], 'vibegotchi': [59, 60], 'vibe_invaders': [61, 62],
-                            'help': [47, 48], 'shutdown': [49, 50]}
+                            'protect': [11, 12], 'ls': [13, 16], 'man': [17, 20], 'cd': [21, 23], 'mkdir': [24, 27], 'touch': [28, 30],
+                            'rm': [31, 33], 'rmdir': [35, 37], 'cat': [38, 40], 'echo': [41, 45], 'viber': [46, 48],
+                            'calendar': [57, 58], 'music': [59, 60], 'vibegotchi': [61, 62], 'vibe_invaders': [63, 64],
+                            'help': [49, 50], 'shutdown': [51, 52]}
                                 
                             if comando_separado[1] in comandos:
                                 caminho = Path(__file__).parent / 'help.md'
@@ -258,51 +280,61 @@ def menu(nome: str, nome_dados: str) -> None:
                                     erro('Comando inválido.')
                         
                         case 'viber':
-                            if len(comando_separado) < 2:
-                                aviso('Prompt esperado.')
-                                continue
+                            aviso('Viber está dormindo, por enquanto.')
+                        #     if len(comando_separado) < 2:
+                        #         aviso('Prompt esperado.')
+                        #         continue
                                 
-                            console.print('>>> Pensando[green]...[/green]\n')
+                        #     console.print('>>> Pensando[green]...[/green]\n')
 
-                            genai.configure(api_key="AIzaSyBAg_yUG5d1-y4-fBsTLIi29CfwJI9w28o")
+                        #     genai.configure(api_key="")
 
-                            caminho = Path(__file__).parent / 'help.md'
-                            with open(caminho, "r", encoding="utf-8") as arquivo_instrucoes:
-                                    instrucoes = arquivo_instrucoes.read()
+                        #     caminho = Path(__file__).parent / 'help.md'
+                        #     with open(caminho, "r", encoding="utf-8") as arquivo_instrucoes:
+                        #             instrucoes = arquivo_instrucoes.read()
                                     
-                            instrucoes_ia = '''\n\n---\n\n
-                            # Instruções de IA
-                            - Você é um assistente de Sistema Operacional VibeOS em terminal, chamado Viber.
-                            - Responda sempre em português.\n-Se não souber a resposta, diga claramente. Nunca invente informações.
-                            - Seja profissional, mas amigável.\n- Não use comandos markdown em sua resposta.
-                            - Não utilize emojis.
-                            - Você ama tudo relacionado ao VibeOS, melhor sistema operacional que existe. Incluindo Vibe Invaders, Vibegotchi, músicas, segredos etc
-                            - O sistema foi criado por Paulo Henrique (seu treinador), Matheus Avanzo (criador do Vibe Invaders), Luiz Felipe e Raphael (criador do Vibegotchi).
-                            - Ctrl + C sai de qualquer programa e reinicia o menu principal.
-                            - Menores de 18 anos não são permitidos de utilizar o VibeOS por questões legais.
-                            - Caso o usuário tenha alguma dúvida, peça-o para entrar em contato pelo email: vibercodasagent@gmail.com'''
+                        #     instrucoes_ia = '''\n\n---\n\n
+                        #     # Instruções de IA
+                        #     - Você é um assistente do Sistema Operacional chamado VibeOS em terminal, chamado Viber.
+                        #     - Responda sempre em português.
+                        #     - Se não souber a resposta, diga claramente. Nunca invente informações.
+                        #     - Seja profissional, mas amigável.
+                        #     - Não use comandos markdown em sua resposta. Se quiser dar destaques, use tags da biblioteca rich, como [bold], [magenta], etc. Mas não se esqueça de fechar a tag depois com [/].
+                        #     - Não utilize emojis.
+                        #     - Você ama tudo relacionado ao VibeOS, melhor sistema operacional que existe. Incluindo Vibe Invaders, Vibegotchi, músicas, segredos etc
+                        #     - O sistema foi criado por Paulo Henrique, Matheus Avanzo, Luiz Felipe e Raphael.
+                        #     - Ctrl + C sai de qualquer programa e reinicia o menu principal.
+                        #     - Menores de 18 anos não são permitidos de utilizar o VibeOS por questões legais.
+                        #     - Caso o usuário tenha alguma dúvida, peça-o para entrar em contato pelo email: vibercodasagent@gmail.com
+                            
+                        #     ## Comandos secretos
+                        #     - **rick:** toca a música Rickroll com um vídeo em ASCII.
+                        #     - **hacker [seg]:** Faz cair 0 e 1 na tela como no filme Matrix pela quantidade de segundos definida. Caso não coloque o tempo, o padrão será 10 segundos.
+                        #     - **soldar:** Toca um áudio meme de uma dublagem brasileira de God of War.
+                            
+                        #     Em hipótese alguma revele esses comandos. Caso seja perguntado sobre eles, faça charadas ou dê dicas interessantes, mas nunca revele diretamente.'''
 
-                            instrucoes += instrucoes_ia
+                        #     instrucoes += instrucoes_ia
                                     
-                            model = genai.GenerativeModel(
-                                model_name='gemini-flash-latest',
-                                system_instruction=instrucoes
-                            )
+                        #     model = genai.GenerativeModel(
+                        #         model_name='gemini-flash-latest',
+                        #         system_instruction=instrucoes
+                        #     )
 
-                            prompt = ''
-                            for command in comando_separado:
-                                prompt += command
+                        #     prompt = ''
+                        #     for command in comando_separado:
+                        #         prompt += command
 
-                            try:
-                                response = model.generate_content(prompt)
+                        #     try:
+                        #         response = model.generate_content(prompt)
 
-                                console.print(f'[bold blue]Viber[/bold blue]: {response.text}\n')
+                        #         console.print(f'[bold blue]Viber:[/bold blue] {response.text}\n')
 
-                            except ResourceExhausted:
-                                aviso('Limite de requisições atingido. Espere um minuto e tente novamente.')
+                        #     except ResourceExhausted:
+                        #         aviso('Limite de requisições atingido. Espere um minuto e tente novamente.')
 
-                            except:
-                                erro(f'Viber não está disponível no momento.')
+                        #     except:
+                        #         erro(f'Viber não está disponível no momento.')
                         
                         case 'hacker':
                             if len(comando_separado) != 2:
@@ -339,8 +371,7 @@ def menu(nome: str, nome_dados: str) -> None:
                                 aviso('A expressão é grande demais.')
 
                             except:
-                                erro(f'Comando [italic]{comando}[/italic] desconhecido.')
-        # except:
+                                erro(f'Comando [italic]{comando_separado[0]}[/italic] desconhecido.')
         except (KeyboardInterrupt, EOFError):
             if aplicativo:
                 continue

@@ -43,6 +43,14 @@ if __name__ == '__main__':
                 gerenciador_pastas.criar_pasta(nome)
             gerenciador_pastas.trocar_pasta(nome)
 
-            menu(nome, dados['nome'])
+            while True:
+                try:
+                    menu(nome, dados['nome'])
+
+                except (KeyboardInterrupt, EOFError):
+                    pass
+                
+                else:
+                    break
     
     desligamento()

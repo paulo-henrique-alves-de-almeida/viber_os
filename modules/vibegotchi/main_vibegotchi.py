@@ -2,6 +2,7 @@
 from modules.vibegotchi.ascii import pegar_vibe
 from modules.vibegotchi.pet import Vibegotchi
 from modules.console import console, limpar_tela, erro
+from modules.achievements.main_achievements import desbloquear
 
 # importação de rich
 from rich import box
@@ -19,6 +20,7 @@ import json
 SAVE = Path(__file__).parent / 'dados' / 'save.json'
 
 def salvar_jogo(pet: Vibegotchi) -> None:
+    SAVE.parent.mkdir(parents=True, exist_ok=True)
     with open(SAVE, "w+", encoding="utf-8") as arquivo:
         json.dump(pet.para_dict(), arquivo, indent=4)
 
@@ -31,7 +33,7 @@ def carregar_jogo() -> None:
     
     return None
 
-def checar_vida(pet) -> bool:
+def checar_vida(pet: Vibegotchi) -> bool:
     condicoes = [
         (pet.aura <= 0,      f"{pet.nome} perdeu toda a sua aura e se foi..."),
         (pet.aura >= 1000,   f"{pet.nome} atingiu a aura máxima e se tornou um ser de pura energia!"),
@@ -43,6 +45,8 @@ def checar_vida(pet) -> bool:
 
     for condicao, mensagem in condicoes:
         if condicao:
+            if pet.aura >= 1000:
+                desbloquear("vg_aura")
             console.print(mensagem)
             SAVE.unlink()
             return True
@@ -53,7 +57,7 @@ def checar_vida(pet) -> bool:
 
 def play() -> None:
     limpar_tela()
-    console.print(Panel(Align.center(text2art('VIBEGOTCHI')), style='bold green', box=box.DOUBLE))
+    console.print(Panel(Align.center(text2art('VIBEGOTCHI')), style='green', box=box.DOUBLE))
     console.print()
 
     pet = carregar_jogo()
@@ -62,6 +66,7 @@ def play() -> None:
     if pet is None:
         nome = console.input("Escolha o nome do seu Vibesgochi: ")
         pet = Vibegotchi(nome)
+        desbloquear("vg_nomeado")
 
     #======================================================================================================================
 
@@ -118,6 +123,8 @@ def play() -> None:
 
                 case '1':
                     pet.alimentar()
+                    if pet.vezes_alimentado >= 3:
+                        desbloquear("vg_cuidado")
                     break
 
                 case '2':

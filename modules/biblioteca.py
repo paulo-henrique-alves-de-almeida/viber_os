@@ -14,8 +14,8 @@ from rich.console import Group
 from pathlib import Path
 from art import text2art
 
-def mostrar_biblioteca():
-    console.print(Panel(Align.center(text2art('BIBLIOTECA DE MUSICAS')), style='bold green', box=box.DOUBLE))
+def mostrar_biblioteca() -> None:
+    console.print(Panel(Align.center(text2art('MUSICAS')), style='green', box=box.DOUBLE))
     console.print()
 
     musicas = caixa_som.listar_musicas()
@@ -34,7 +34,7 @@ def mostrar_biblioteca():
     console.print(Panel(conteudo))
     console.print()
 
-def biblioteca_musicas():
+def biblioteca_musicas() -> None:
     caixa_som.init()
     quantidade_musicas = len(caixa_som.listar_musicas())
 
