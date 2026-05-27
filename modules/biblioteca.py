@@ -2,7 +2,6 @@
 from console import console, limpar_tela, erro, aviso
 from caixa_som import caixa_som
 
-
 # importação de Rich
 from rich.panel import Panel
 from rich import box
@@ -13,64 +12,56 @@ from rich.console import Group
 # outras importações
 from pathlib import Path
 from art import text2art
+import msvcrt
 
-def mostrar_biblioteca() -> None:
+
+def mostrar_biblioteca(musicas: list, selected: int) -> None:
     console.print(Panel(Align.center(text2art('MUSICAS')), style='green', box=box.DOUBLE))
     console.print()
 
-    musicas = caixa_som.listar_musicas()
-    musicas.sort()
     lista_musicas = Text()
+    for i, music in enumerate(musicas):
+        numero = f"0{i + 1}" if i < 9 else str(i + 1)
+        if i == selected:
+            lista_musicas.append(f'\n[{numero}]  ▶  {Path(music).stem}\n', style="bold green")
+        else:
+            lista_musicas.append(f'\n[{numero}]     {Path(music).stem}\n', style="dim green")
 
-    for index, music in enumerate(musicas):
-        lista_musicas.append(f'\n{f"[{f'0{index + 1}' if index < 9 else index + 1}]":<5} {Path(music).stem}\n')
-    
-    musica_atual = Text(f'Música Atual: {str(Path(caixa_som.get_musica_atual()).stem).title()}\n', justify='center', style='bold green')
-    
-    mute = Text('Digite [-1] para deixar a música muda.\n', justify='center', style='green')
-    sair = Text('Digite [0] para sair.', justify='center', style='green')
+    musica_atual = Text(f'\nMúsica Atual: {str(Path(caixa_som.get_musica_atual()).stem).title()}\n', justify='center', style='bold green')
+    dicas = Text('↑ ↓: Navegar  |  Enter: Tocar  |  M: Mudo  |  Q: Sair', justify='center', style='dim green')
 
-    conteudo = Group(lista_musicas, musica_atual, mute, sair)
+    conteudo = Group(lista_musicas, musica_atual, dicas)
     console.print(Panel(conteudo))
     console.print()
 
+
 def biblioteca_musicas() -> None:
     caixa_som.init()
-    quantidade_musicas = len(caixa_som.listar_musicas())
+    musicas = sorted(caixa_som.listar_musicas())
+    selected = 0
 
     while True:
         limpar_tela()
-        mostrar_biblioteca()
+        mostrar_biblioteca(musicas, selected)
 
-        while True:
-            try:
-                musica = console.input('>>> ').strip()
+        key = msvcrt.getch()
 
-                if musica == '':
-                    continue
-                    
-                musica = int(musica)
+        if key == b'\xe0':  # seta especial
+            key2 = msvcrt.getch()
+            if key2 == b'H':  # seta cima
+                selected = (selected - 1) % len(musicas)
+            elif key2 == b'P':  # seta baixo
+                selected = (selected + 1) % len(musicas)
 
-                if musica == -1:
-                    caixa_som.tocar_musica('mute')
-                    break
+        elif key in (b'\r', b'\n'):  # Enter — toca a música selecionada
+            caixa_som.tocar_musica(musicas[selected], 0.5)
 
-                if musica == 0:
-                    break
-                    
-                if musica < -1 or musica > quantidade_musicas:
-                    aviso(f'Digite apenas números de 1 a {quantidade_musicas}, -1 para deixar a música muda ou 0 para sair.')
-                    continue
+        elif key.lower() == b'm':  # M — mudo
+            caixa_som.tocar_musica('mute')
 
-            except ValueError:
-                erro(f'Digite apenas números de 1 a {quantidade_musicas}, -1 para deixar a música muda ou 0 para sair.')
-            
-            else:
-                caixa_som.tocar_musica(caixa_som.listar_musicas()[musica - 1], 0.5)
-                break
-        
-        if musica == 0:
+        elif key.lower() == b'q':  # Q — sair
             break
+
 
 if __name__ == '__main__':
     biblioteca_musicas()

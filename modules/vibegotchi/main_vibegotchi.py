@@ -8,16 +8,22 @@ from modules.achievements.main_achievements import desbloquear
 from rich import box
 from rich.panel import Panel
 from rich.align import Align
+from rich.text import Text
 
 # outras importações
 from art import text2art
 from pathlib import Path
 import time
 import json
+import msvcrt
 
 #=========================================================================================================================
 
 SAVE = Path(__file__).parent / 'dados' / 'save.json'
+
+# ── ações navegáveis ──────────────────────────────────────────────────────────
+ACOES = ["Sair", "Alimentar", "Brincar", "Dormir"]
+
 
 def salvar_jogo(pet: Vibegotchi) -> None:
     SAVE.parent.mkdir(parents=True, exist_ok=True)
@@ -28,9 +34,7 @@ def carregar_jogo() -> None:
     if SAVE.exists():
         with open(SAVE, "r", encoding="utf-8") as arquivo:
             dados = json.load(arquivo)
-
         return Vibegotchi.de_dict(dados)
-    
     return None
 
 def checar_vida(pet: Vibegotchi) -> bool:
@@ -53,6 +57,18 @@ def checar_vida(pet: Vibegotchi) -> bool:
 
     return False
 
+def _draw_acoes(selected: int) -> None:
+    """Renderiza o menu de ações com o cursor na opção selecionada."""
+    acoes_text = Text(justify="center")
+    acoes_text.append("\n Ações:\n\n", style="bold green")
+    for i, acao in enumerate(ACOES):
+        if i == selected:
+            acoes_text.append(f"▶  {acao}\n\n", style="bold green")
+        else:
+            acoes_text.append(f"   {acao}\n\n", style="dim green")
+    acoes_text.append("↑ ↓: Navegar  |  Enter: Confirmar", style="dim green")
+    console.print(Panel(acoes_text, border_style="green"))
+
 #=========================================================================================================================
 
 def play() -> None:
@@ -62,6 +78,7 @@ def play() -> None:
 
     pet = carregar_jogo()
     ultimo_tempo = time.time()
+    selected = 0  # índice da ação selecionada
 
     if pet is None:
         nome = console.input("Escolha o nome do seu Vibesgochi: ")
@@ -73,13 +90,13 @@ def play() -> None:
     while True:
         limpar_tela()
         salvar_jogo(pet)
-        
+
         tempo_atual = time.time()
         delta = tempo_atual - ultimo_tempo
         if delta >= 2:
             pet.passar_tempo()
             ultimo_tempo = tempo_atual
-        
+
         if pet.aura <= 20:
             cor = "red"
         elif pet.humor > 70:
@@ -105,42 +122,42 @@ def play() -> None:
         limpar_tela()
         console.print(painel_pet)
         console.print(painel_status)
+        _draw_acoes(selected)
 
-        console.print("""
-        [bold]Ações:[/bold]
-        [0] → Sair
-        [1] → Alimentar
-        [2] → Brincar
-        [3] → Dormir
-        """)
+        # ── leitura de input por setas ────────────────────────────────────────
+        escolha = None
+        while escolha is None:
+            key = msvcrt.getch()
 
-        while True:
-            escolha = console.input(">>> ")
+            if key == b'\xe0':  # seta especial
+                key2 = msvcrt.getch()
+                if key2 == b'H':  # seta cima
+                    selected = (selected - 1) % len(ACOES)
+                elif key2 == b'P':  # seta baixo
+                    selected = (selected + 1) % len(ACOES)
 
-            match escolha:
-                case '0':
-                    break
+                # re-desenha só o painel de ações
+                limpar_tela()
+                console.print(painel_pet)
+                console.print(painel_status)
+                _draw_acoes(selected)
 
-                case '1':
-                    pet.alimentar()
-                    if pet.vezes_alimentado >= 3:
-                        desbloquear("vg_cuidado")
-                    break
+            elif key in (b'\r', b'\n'):  # Enter confirma
+                escolha = selected
 
-                case '2':
-                    pet.brincar()
-                    break
-                
-                case '3':
-                    pet.dormir()
-                    break
+        # ── executa a ação ────────────────────────────────────────────────────
+        match escolha:
+            case 0:  # Sair
+                break
+            case 1:  # Alimentar
+                pet.alimentar()
+                if pet.vezes_alimentado >= 3:
+                    desbloquear("vg_cuidado")
+            case 2:  # Brincar
+                pet.brincar()
+            case 3:  # Dormir
+                pet.dormir()
 
-                case _:
-                    erro("Opção inválida!")
-        
-        if escolha == '0':
-            break
-        
         #------------------------------------------------------------------------------------------------------------------------
 
         if checar_vida(pet):
