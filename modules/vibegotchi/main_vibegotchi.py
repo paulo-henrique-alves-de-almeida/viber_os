@@ -1,4 +1,6 @@
 # importações internas
+from unittest import case
+
 from modules.vibegotchi.ascii import pegar_vibe
 from modules.vibegotchi.pet import Vibegotchi
 from modules.console import console, limpar_tela, erro
@@ -22,7 +24,7 @@ import msvcrt
 SAVE = Path(__file__).parent / 'dados' / 'save.json'
 
 # ── ações navegáveis ──────────────────────────────────────────────────────────
-ACOES = ["Sair", "Alimentar", "Brincar", "Dormir"]
+ACOES = [ "Alimentar", "Brincar", "Dormir", "Sair"]
 
 
 def salvar_jogo(pet: Vibegotchi) -> None:
@@ -147,16 +149,16 @@ def play() -> None:
 
         # ── executa a ação ────────────────────────────────────────────────────
         match escolha:
-            case 0:  # Sair
-                break
-            case 1:  # Alimentar
+            case 0:  # Alimentar
                 pet.alimentar()
                 if pet.vezes_alimentado >= 3:
                     desbloquear("vg_cuidado")
-            case 2:  # Brincar
+            case 1:  # Brincar
                 pet.brincar()
-            case 3:  # Dormir
+            case 2:  # Dormir
                 pet.dormir()
+            case 3:  # Sair
+                break
 
         #------------------------------------------------------------------------------------------------------------------------
 
